@@ -1,0 +1,38 @@
+{
+	"applications": {
+		"gecko": {
+			"id": "myNewTabWE@sakuyaa",
+			"strict_min_version": "55.0",
+			"update_url": "https://raw.githubusercontent.com/sakuyaa/myNewTabWE/master/release/updates.json"
+		}
+	},
+	"author": "sakuyaa",
+	"chrome_settings_overrides": {
+		"homepage": "html/index.html"
+	},
+	"chrome_url_overrides": {
+		"newtab": "html/index.html"
+	},
+	"description": "myNewTabMod这个扩展的WebExtension版本，由于API限制部分功能无法实现",
+	"homepage_url": "https://github.com/sakuyaa/myNewTabWE",
+	"icons": {
+		"48": "image/home.svg",
+		"96": "image/home.svg"
+	},
+	"manifest_version": 2,
+	"name": "myNewTab WE",
+	"options_ui": {
+		"open_in_tab": true,
+		"page": "html/options.html"
+	},
+	"permissions": [
+		"downloads",
+		"notifications",
+		"storage",
+		"tabs",
+		"unlimitedStorage",
+		"webNavigation",
+		"<all_urls>"
+	],
+	"version": "1.0"
+}

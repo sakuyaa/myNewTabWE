@@ -1,0 +1,136 @@
+/**************************************************
+* 	myNewTabWE by sakuyaa.
+*	
+*	https://github.com/sakuyaa/
+**************************************************/
+/*天气*/
+#weather {
+	position: fixed;
+	top: .5em;
+	left: 0em;
+	z-index: 9;
+}
+
+/*去除因主框架右移导致的滚动条*/
+html {
+	overflow-x: hidden;
+} 
+
+body {
+	font-family: "microsoft yahei", sans-serif;
+	background-attachment: fixed;
+	background-color: #EDEDED;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	overflow: auto;
+}
+
+#main {
+	left: 50%;   /*主框架右移*/
+	width: 100%;
+	position: absolute;
+	margin-bottom: 1em;   /*导航底部保留空间*/
+}
+
+/*日历整体*/
+#date {
+	transform: translateX(-50%);   /*左移使之居中*/
+	margin: .25em 0;
+	color: #1E90FF;
+	font-family: "monotype corsiva", sans-serif;
+	font-size: 3em;
+	font-weight: bold;
+	text-align: center;
+	text-shadow: .1em .1em .1em black;
+}
+/*农历*/
+#lunar {
+	color: #333;
+	font-size: .75em;
+	text-shadow: .1em .1em .1em silver;
+}
+/*节日*/
+.festival {
+	color: orangered;
+}
+/*法定假日*/
+.holiday {
+	color: red;
+}
+
+/*导航整体面板*/
+#navs {
+	transform: translateX(-50%);   /*左移使之居中*/
+	float: left;   /*宽度自适应*/
+	max-width: 80%;   /*最大宽度*/
+	background-color: #111;
+	border: .1em solid gray;
+	opacity: .65;
+}
+/*导航链接*/
+#navs a {
+	color: white;
+	outline: none;   /*不显示虚框*/
+	text-decoration: none;
+}
+
+
+/*导航标题*/
+#navtitle {
+	padding: .4em;
+	color: white;
+	font-size: 1.25em;
+	font-weight: bold;
+	border-bottom: .15em solid #555;
+	opacity: .7;
+}
+/*导航标题链接图标*/
+#navtitle img {
+	height: 1em;
+	width: 1em;
+	margin-right: .25em;
+	margin-bottom: -.1em;
+}
+/*切换、定位、编辑按钮*/
+#navtitle a {
+	float: right;
+	padding: 0 .2em;
+	opacity: .5;
+}
+#navtitle a:hover {
+	opacity: 1;
+}
+
+/*导航表格*/
+#navtable {
+	padding: .25em 1em;
+}
+/*设置导航链接图标*/
+#navtable img {
+	height: 1em;
+	width: 1em;
+	margin-right: .25em;
+	margin-bottom: -.2em;
+}
+/*设置导航分类*/
+#navtable th {
+	width: 6.5em;
+	padding-top: .3em;   /*使之与文字对齐*/
+	color: gray;
+	text-align: left;
+	vertical-align: top;
+}
+/*设置导航单元大小*/
+#navtable td {
+	float: left;
+	margin: .25em 0;
+	width: 7.5em;
+	opacity: .9;
+}
+/*设置导航链接hover时*/
+#navtable a:hover {
+	transition: color 0.423s ease, text-shadow 0.423s ease;
+	color: rgba(255, 255, 255, 1);
+	text-shadow: 0 1px rgba(64, 64, 255, 0.9), 0 1px 1px rgba(64, 64, 255, 0.9), 0 -1px 1px rgba(64, 64, 255, 0.9), 1px 0 1px rgba(64, 64, 255, 0.9), -1px 0 1px rgba(64, 64, 255, 0.9), 0 0 3px rgba(64, 64, 255, 0.9);
+}

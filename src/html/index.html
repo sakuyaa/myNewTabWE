@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" href="../image/home.svg" type="image/svg+xml" />
+		<link rel="stylesheet" href="../css/index.css" />
+	</head>
+	<body>
+		<iframe id="weather" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+		<div id="main">
+			<div id="date">
+				<span id="solar"></span><br /><span id="lunar"></span>
+			</div>
+			<div id="navs">
+				<div id="navtitle">
+					<span>我的导航</span>
+					<a href="../html/options.html" draggable="false" target="_blank" title="扩展选项">
+						<img src="../image/config.svg" />选项
+					</a>
+					<a id="download" href="javascript:;" draggable="false" title="下载背景图片">
+						<img src="../image/download.svg" />下载
+					</a>
+					<a id="change" href="javascript:;" draggable="false" title="切换背景图片">
+						<img src="../image/change.svg" />切换
+					</a>
+				</div>
+				<table id="navtable" />
+			</div>
+		</div>
+		<script src="../js/calendar.min.js"></script>
+		<script src="../js/index.js"></script>
+	</body>
+</html>
