@@ -27,7 +27,7 @@ let myNewTabWE = {
 	},
 	
 	//获取参数
-	getStorage: function() {
+	getStorage: () => {
 		return new Promise((resolve, reject) => {
 			browser.storage.local.get({   //默认值
 				config: {
@@ -56,7 +56,7 @@ let myNewTabWE = {
 	},
 	
 	//初始化日期
-	initDate: function() {
+	initDate: () => {
 		let solar = Solar.getSolar(new Date());
 		let node = $id('solar');
 		let span = document.createElement('span');
@@ -86,7 +86,7 @@ let myNewTabWE = {
 		node.appendChild(span);
 	},
 	//初始化导航网址
-	initSite: function() {
+	initSite: () => {
 		let table = $id('navtable');
 		for(let title in myNewTabWE.sites) {
 			if (title.toLowerCase() == 'yooo') {   //神秘的代码
@@ -129,7 +129,7 @@ let myNewTabWE = {
 		});
 	},
 	//初始化背景图片
-	initImage: function() {
+	initImage: () => {
 		if (myNewTabWE.imageData.imageUrl && myNewTabWE.imageData.imageUrl.length > 0) {
 			document.body.style.backgroundImage = 'url("' + myNewTabWE.imageData.imageUrl + '")';
 			//设置图片下载链接，不使用addEventListener避免重复设置
@@ -151,7 +151,7 @@ let myNewTabWE = {
 		}
 	},
 	
-	init: function() {
+	init: () => {
 		document.title = myNewTabWE.config.title;
 		myNewTabWE.initDate();
 		myNewTabWE.initSite();
@@ -186,7 +186,7 @@ let myNewTabWE = {
 		};
 	},
 	
-	getBingImage: function() {
+	getBingImage: () => {
 		new Promise((resolve, reject) => {
 			let xhr = new XMLHttpRequest();
 			xhr.responseType = 'json';
@@ -221,7 +221,7 @@ let myNewTabWE = {
 				.replace(/(:)/g, '：')
 				.replace(/(\?)/g, '？')
 				.replace(/("|<|>)/g, '\'') + '.jpg';
-			browser.storage.local.set(myNewTabWE.imageData).then(null, e => {
+			browser.storage.local.set({imageData: myNewTabWE.imageData}).then(null, e => {
 				myNewTabWE.notify(e, '设置readLater配置失败');
 			});
 			
@@ -238,7 +238,7 @@ let myNewTabWE = {
 		});
 	},
 	
-	buildTr: function(type, sites) {
+	buildTr: (type, sites) => {
 		let tr = document.createElement('tr'),
 			th = document.createElement('th'),
 			span = document.createElement('span'),
