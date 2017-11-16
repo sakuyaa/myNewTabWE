@@ -1,0 +1,59 @@
+/**************************************************
+* 	myNewTabWE by sakuyaa.
+*	
+*	https://github.com/sakuyaa/
+**************************************************/
+body {
+	background-color: #EEEEEE;
+	font-family: "microsoft yahei", sans-serif;
+	margin: 1.5em 3em;
+}
+
+#logo {
+	text-align: center;
+}
+#logo a {
+	color: black;
+	font-size: 2.5em;
+	opacity: .5;
+	text-decoration: none;
+}
+#logo a img {
+	height: 1.3em;
+	vertical-align: top;
+}
+
+button {
+	border: .1em solid gray;
+	border-radius: .5em;
+	padding: .3em 1em;
+}
+button:hover {
+	background-color: #CCCCCC;
+}
+
+.group {
+	border: .1em solid gray;
+	border-radius: .5em;
+	margin: 1em 0;
+}
+.header {
+	background-color: #DDDDDD;
+	border-bottom: .1em solid gray;
+	padding: .5em 1em;
+	border-top-left-radius: .5em;
+	border-top-right-radius: .5em;
+}
+.content {
+	padding: .5em 1em;
+}
+
+table {
+	width: 100%;
+}
+td {
+	padding: .5em;
+}
+tr:hover {
+	background-color: #DDDDDD;
+}

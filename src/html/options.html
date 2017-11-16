@@ -2,12 +2,69 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>myNewTab WE</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>配置页面</title>
+		<link rel="icon" href="../image/home.svg" type="image/svg+xml" />
+		<link rel="stylesheet" href="../css/options.css" />
 	</head>
 	<body>
-		<div>
-			<button id="import">导入</button>
-			<button id="export">导出</button>
+		<div id="logo">
+			<a href="https://github.com/sakuyaa/myNewTabWE" target="_blank">
+				<img src="../image/home.svg"> myNewTab WE
+			</a>
+		</div>
+		<div class="group">
+			<div class="header">导入导出</div>
+			<div class="content">
+				<button id="import">导入</button>
+				<button id="export">导出</button>
+			</div>
+		</div>
+		<div class="group">
+			<div class="header">选项</div>
+			<div class="content">
+				<table rules="rows">
+					<tr>
+						<td>新标签页打开链接</td>
+						<td><input id="newtab-open" type="checkbox"></input></td>
+					</tr>
+					<tr>
+						<td>Bing壁纸最大历史天数</td>
+						<td><select id="bing-max-history">
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+							<option value="13">13</option>
+							<option value="14">14</option>
+							<option value="15">15</option>
+							<option value="16">16</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>壁纸尺寸</td>
+						<td>
+							<input id="1920" type="radio" name="image-size">1920x1080</input>
+							<input id="1366" type="radio" name="image-size">1366x768</input>
+						</td>
+					</tr>
+					<tr>
+						<td>主页标题</td>
+						<td><input id="title" size="50"></input></td>
+					</tr>
+					<tr>
+						<td>天气栏URL</td>
+						<td><input id="weather-src" size="50"></input></td>
+					</tr>
+				</table>
+			</div>
 		</div>
 		<script src="../js/options.js"></script>
 	</body>
