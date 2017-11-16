@@ -39,6 +39,7 @@ let myNewTabWE = {
 				},
 				imageData: {
 					lastCheckTime: 0,
+					imageName: '',
 					imageUrl: ''
 				},
 				sites: {}
@@ -131,6 +132,15 @@ let myNewTabWE = {
 	initImage: function() {
 		if (myNewTabWE.imageData.imageUrl && myNewTabWE.imageData.imageUrl.length > 0) {
 			document.body.style.backgroundImage = 'url("' + myNewTabWE.imageData.imageUrl + '")';
+			//设置图片下载链接，不使用addEventListener避免重复设置
+			$id('download').onclick = () => {
+				browser.downloads.download({
+					filename: myNewTabWE.imageData.imageName,
+					saveAs: true,
+					url: myNewTabWE.imageData.imageUrl
+				});
+			};
+			
 			let today = new Date();
 			today.setHours(0, 0, 0);   //毫秒就不管了
 			if (new Date(myNewTabWE.imageData.lastCheckTime) < today) {
@@ -203,25 +213,26 @@ let myNewTabWE = {
 			}
 			document.body.style.backgroundImage = 'url("' + myNewTabWE.imageData.imageUrl + '")';
 			
+			//保存图片链接和获取时间
+			myNewTabWE.imageData.lastCheckTime = Date.now();
+			myNewTabWE.imageData.imageName = data.enddate + '-' +
+				data.copyright.replace(/(\s|\(.*?\))/g, '')
+				.replace(/(\\|\/|\*|\|)/g, '')   //Win文件名不能包含下列字符
+				.replace(/(:)/g, '：')
+				.replace(/(\?)/g, '？')
+				.replace(/("|<|>)/g, '\'') + '.jpg';
+			browser.storage.local.set(myNewTabWE.imageData).then(null, e => {
+				myNewTabWE.notify(e, '设置readLater配置失败');
+			});
+			
 			//设置图片下载链接，不使用addEventListener避免重复设置
 			$id('download').onclick = () => {
 				browser.downloads.download({
-					filename: data.enddate + '-' +
-						data.copyright.replace(/(\s|\(.*?\))/g, '')
-						.replace(/(\\|\/|\*|\|)/g, '')   //Win文件名不能包含下列字符
-						.replace(/(:)/g, '：')
-						.replace(/(\?)/g, '？')
-						.replace(/("|<|>)/g, '\'') + '.jpg',
+					filename: myNewTabWE.imageData.imageName,
 					saveAs: true,
 					url: myNewTabWE.imageData.imageUrl
 				});
 			};
-			
-			//保存图片链接和获取时间
-			myNewTabWE.imageData.lastCheckTime = Date.now();
-			browser.storage.local.set(myNewTabWE.imageData).then(null, e => {
-				myNewTabWE.notify(e, '设置readLater配置失败');
-			});
 		}, aReject => {
 			myNewTabWE.notify(aReject, '获取图片失败');
 		});
