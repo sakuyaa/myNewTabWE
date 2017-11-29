@@ -15,21 +15,28 @@ body {
 #logo a {
 	color: black;
 	font-size: 2.5em;
-	opacity: .5;
+	opacity: .8;
 	text-decoration: none;
 }
-#logo a img {
+#logo img {
 	height: 1.3em;
 	vertical-align: top;
 }
+#config td:nth-child(1) {
+	width: 12em;
+}
 
 button {
+	background-color: #F9F9F9;
 	border: .1em solid gray;
 	border-radius: .5em;
 	padding: .3em 1em;
 }
 button:hover {
 	background-color: #CCCCCC;
+}
+button:active {
+	background-color: #BBBBBB;
 }
 
 .group {
