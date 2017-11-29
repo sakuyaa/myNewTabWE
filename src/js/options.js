@@ -125,12 +125,12 @@ let myNewTabWE = {
 	
 	//选项变更时保存
 	confListener: () => {
-		$id('newtab-open').addEventListener('click', () => {
-			myNewTabWE.config.newTabOpen = $id('newtab-open').checked;
+		$id('newtab-open').addEventListener('click', e => {
+			myNewTabWE.config.newTabOpen = e.target.checked;
 			myNewTabWE.setStorage(true);
 		});
-		$id('bing-max-history').addEventListener('change', () => {
-			myNewTabWE.config.bingMaxHistory = $id('bing-max-history').value;
+		$id('bing-max-history').addEventListener('change', e => {
+			myNewTabWE.config.bingMaxHistory = e.target.value;
 			myNewTabWE.setStorage(true);
 		});
 		$id('1920').addEventListener('click', () => {
@@ -141,12 +141,12 @@ let myNewTabWE = {
 			myNewTabWE.config.useBigImage = false;
 			myNewTabWE.setStorage(true);
 		});
-		$id('title').addEventListener('change', () => {
-			myNewTabWE.config.title = $id('title').value;
+		$id('title').addEventListener('change', e => {
+			myNewTabWE.config.title = e.target.value;
 			myNewTabWE.setStorage(true);
 		});
-		$id('weather-src').addEventListener('change', () => {
-			myNewTabWE.config.weatherSrc = $id('weather-src').value;
+		$id('weather-src').addEventListener('change', e => {
+			myNewTabWE.config.weatherSrc = e.target.value;
 			myNewTabWE.setStorage(true);
 		});
 	}
