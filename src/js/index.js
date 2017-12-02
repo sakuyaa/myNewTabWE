@@ -14,7 +14,7 @@ let myNewTabWE = {
 	bingIndex: 0,   //Bing图片历史天数
 	config: {},
 	imageData: {},
-	sites: {},
+	sites: [],
 	
 	//显示桌面通知
 	notify: (message, title) => {
@@ -42,7 +42,7 @@ let myNewTabWE = {
 					imageName: '',
 					imageUrl: ''
 				},
-				sites: {}
+				sites: []
 			}).then(storage => {
 				myNewTabWE.config = storage.config;
 				myNewTabWE.imageData = storage.imageData;
@@ -88,14 +88,14 @@ let myNewTabWE = {
 	//初始化导航网址
 	initSite: () => {
 		let table = $id('navtable');
-		for(let title in myNewTabWE.sites) {
-			if (title.toLowerCase() == 'yooo') {   //神秘的代码
-				let yooo = myNewTabWE.buildTr(title, myNewTabWE.sites[title]);
+		for(let list of myNewTabWE.sites) {
+			if (list.name.toLowerCase() == 'yooo') {   //神秘的代码
+				let yooo = myNewTabWE.buildTr(list);
 				yooo.setAttribute('hidden', 'hidden');
 				yooo.setAttribute('name', 'yooo');
 				table.appendChild(yooo);
 			} else {
-				table.appendChild(myNewTabWE.buildTr(title, myNewTabWE.sites[title]));
+				table.appendChild(myNewTabWE.buildTr(list));
 			}
 		}
 		setTimeout(() => {
@@ -238,23 +238,23 @@ let myNewTabWE = {
 		});
 	},
 	
-	buildTr: (type, sites) => {
+	buildTr: list => {
 		let tr = document.createElement('tr'),
 			th = document.createElement('th'),
 			span = document.createElement('span'),
 			td, a, img, textNode, path;
 		
 		//添加分类
-		span.textContent = type;
+		span.textContent = list.name;
 		th.appendChild(span);
 		tr.appendChild(th);
 		
 		//添加站点
-		for (let site of sites) {
+		for (let site of list.list) {
 			td = document.createElement('td');
 			a = document.createElement('a');
 			img = document.createElement('img');
-			textNode = document.createTextNode(site.name);
+			textNode = document.createTextNode(site.title);
 			
 			a.setAttribute('href', site.url);
 			if (myNewTabWE.config.newTabOpen) {

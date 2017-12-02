@@ -13,7 +13,7 @@ const $id = id => {
 let myNewTabWE = {
 	config: {},
 	imageData: {},
-	sites: {},
+	sites: [],
 	
 	notify: (message, title) => {
 		browser.notifications.create({
@@ -40,7 +40,7 @@ let myNewTabWE = {
 					imageName: '',
 					imageUrl: ''
 				},
-				sites: {}
+				sites: []
 			}).then(storage => {
 				myNewTabWE.config = storage.config;
 				myNewTabWE.imageData = storage.imageData;
