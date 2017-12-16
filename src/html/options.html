@@ -8,6 +8,35 @@
 		<link rel="stylesheet" href="../css/options.css" />
 	</head>
 	<body>
+		<input id="upload" type="file" hidden="hidden" />
+		<div id="edit-modal">
+			<div class="group">
+				<div class="header">编辑</div>
+				<div class="content">
+					<table rules="rows">
+						<tr>
+							<td>标题</td>
+							<td><input id="edit-title" /></td>
+						</tr>
+						<tr>
+							<td>网址</td>
+							<td><input id="edit-url" /></td>
+						</tr>
+						<tr>
+							<td>图标</td>
+							<td>
+								<input id="edit-icon" size="50" />
+								<button id="edit-upload">上传图标</button>
+							</td>
+						</tr>
+					</table>
+					<div id="confirm">
+						<button id="edit-confirm">确认</button>
+						<button id="edit-cancel">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div id="logo">
 			<a href="https://github.com/sakuyaa/myNewTabWE" target="_blank">
 				<img src="../image/home.svg"> myNewTab WE
@@ -26,7 +55,7 @@
 				<table rules="rows" id="config">
 					<tr>
 						<td>新标签页打开链接</td>
-						<td><input id="newtab-open" type="checkbox"></input></td>
+						<td><input id="newtab-open" type="checkbox" /></td>
 					</tr>
 					<tr>
 						<td>Bing壁纸最大历史天数</td>
@@ -57,13 +86,46 @@
 					</tr>
 					<tr>
 						<td>主页标题</td>
-						<td><input id="title" size="50"></input></td>
+						<td><input id="title" size="50" /></td>
 					</tr>
 					<tr>
 						<td>天气栏URL</td>
-						<td><input id="weather-src" size="50"></input></td>
+						<td><input id="weather-src" size="50" /></td>
 					</tr>
 				</table>
+			</div>
+		</div>
+		<div class="group">
+			<div class="header">导航网址</div>
+			<div class="content" id="sites">
+				<button id="new-group">增加分组</button>
+				<div class="group" id="template-group" hidden="hidden">
+					<div class="header">
+						<span class="group-name">分组名</span>
+						<button class="group-delete">删除分组</button>
+						<button class="group-rename">重命名</button>
+						<button class="group-add">增加网址</button>
+					</div>
+					<div class="content">
+						<table class="group-table" rules="rows">
+							<tr>
+								<th>标题</th>
+								<th>网址</th>
+								<th>图标</th>
+								<th>操作</th>
+							</tr>
+							<tr class="template-row" hidden="hidden">
+								<td class="row-title">项目主页</td>
+								<td class="row-url">https://github.com/sakuyaa/myNewTabWE</td>
+								<td class="row-icon">https://github.com/favicon.ico</td>
+								<td>
+									<button class="row-edit">编辑</button>
+									<button class="row-delete">删除</button>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script src="../js/options.js"></script>

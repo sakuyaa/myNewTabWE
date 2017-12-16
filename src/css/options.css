@@ -8,35 +8,37 @@ body {
 	font-family: "microsoft yahei", sans-serif;
 	margin: 1.5em 3em;
 }
-
-#logo {
-	text-align: center;
+table {
+	width: 100%;
 }
-#logo a {
-	color: black;
-	font-size: 2.5em;
-	opacity: .8;
-	text-decoration: none;
+tr:hover {
+	background-color: #DDDDDD;
 }
-#logo img {
-	height: 1.3em;
-	vertical-align: top;
+th {
+	background-color: #EEEEEE;   /*表头保持背景色*/
+	padding: .5em;
+	text-align: left;
 }
-#config td:nth-child(1) {
-	width: 12em;
+td {
+	padding: .5em;
+	text-align: left;
 }
-
 button {
 	background-color: #F9F9F9;
 	border: .1em solid gray;
 	border-radius: .5em;
+	margin: 0 .5em;
 	padding: .3em 1em;
 }
 button:hover {
 	background-color: #CCCCCC;
 }
-button:active {
+button:active {   /*点击效果*/
 	background-color: #BBBBBB;
+}
+input:focus {   /*输入框聚焦效果*/
+	box-shadow: 0 0 1em 0 #999999;
+	transition: box-shadow .1s ease-in-out; 
 }
 
 .group {
@@ -47,20 +49,74 @@ button:active {
 .header {
 	background-color: #DDDDDD;
 	border-bottom: .1em solid gray;
-	padding: .5em 1em;
 	border-top-left-radius: .5em;
 	border-top-right-radius: .5em;
+	padding: .5em 1em;
+}
+.header button {
+	float: right;   /*按钮靠右*/
+	margin: -.2em .5em;
+	width: 7em;
 }
 .content {
 	padding: .5em 1em;
 }
+.group-table {
+	table-layout: fixed;   /*固定表格布局*/
+}
+.group-table td {   /*修剪文本*/
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.group-table th:first-child {
+	width: 7em;   /*固定表格布局需要对第一行各项控制宽度*/
+}
+.group-table th:last-child {   /*操作列*/
+	text-align: center;
+	width: 9em;
+}
+.group-table td:last-child {   /*按钮居中*/
+	text-align: center;
+}
 
-table {
+#edit-modal {   /*模态框遮罩*/
+	align-items: center;
+	background-color: rgba(0, 0, 0, .6);
+	display: none;   /*flex*/
+	height: 100%;
+	justify-content: center;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 9;
+}
+#edit-modal .content {   /*保持背景颜色和圆弧边框*/
+	background-color: #EEEEEE;
+	border-bottom-left-radius: .5em;
+	border-bottom-right-radius: .5em;
+}
+#edit-modal input:not([size]) {   /*除图标列之外输入框长度*/
 	width: 100%;
 }
-td {
-	padding: .5em;
+#confirm {   /*确认取消按钮位置*/
+	border-top: .1em solid gray;
+	padding-top: .5em;
+	text-align: center;
 }
-tr:hover {
-	background-color: #DDDDDD;
+#logo {
+	text-align: center;
+}
+#logo a {
+	color: black;
+	font-size: 2.5em;
+	opacity: .8;
+	text-decoration: none;
+}
+#logo img {   /*图片文字对齐*/
+	height: 1.3em;
+	vertical-align: top;
+}
+#config td:first-child {   /*选项文字宽度*/
+	width: 12em;
 }

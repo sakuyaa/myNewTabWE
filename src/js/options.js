@@ -117,10 +117,43 @@ let myNewTabWE = {
 		$id('weather-src').value = myNewTabWE.config.weatherSrc;
 		myNewTabWE.confListener();
 	},
+	//初始化导航网址
+	initSites: ()=> {
+		for (let group of myNewTabWE.sites) {
+			$id('sites').appendChild(myNewTabWE.buildGroup(group));
+		}
+		$id('new-group').addEventListener('click', () => {
+			let name = prompt('请输入分组名');
+			if (name != null) {
+				let group = {
+					name: name,
+					list: []
+				};
+				myNewTabWE.sites.push(group);
+				myNewTabWE.setStorage();
+				let node = myNewTabWE.buildGroup(group);
+				$id('sites').appendChild(node);
+				node.scrollIntoView(false);   //与滚动区的可视区域的底端对齐
+			}
+		}, false);
+		let upload = $id('upload');
+		$id('edit-upload').addEventListener('click', () => {
+			upload.setAttribute('accept', 'image/*');
+			upload.onchange = () => {
+				let reader = new FileReader();
+				reader.onload = () => {
+					$id('edit-icon').value = reader.result;
+				};
+				reader.readAsDataURL(upload.files[0]);
+			};
+			upload.click();
+		}, false);
+	},
 	
 	init: () => {
 		myNewTabWE.initImportExport();
 		myNewTabWE.initConf();
+		myNewTabWE.initSites();
 	},
 	
 	//选项变更时保存
@@ -148,6 +181,85 @@ let myNewTabWE = {
 		$id('weather-src').addEventListener('change', e => {
 			myNewTabWE.config.weatherSrc = e.target.value;
 			myNewTabWE.setStorage(true);
+		});
+	},
+	buildGroup: group => {
+		let node = $id('template-group').cloneNode(true);
+		node.removeAttribute('id');
+		node.removeAttribute('hidden');
+		let table = node.querySelector('.group-table'),
+			row = node.querySelector('.template-row');
+		
+		node.querySelector('.group-name').textContent = group.name;
+		node.querySelector('.group-add').addEventListener('click', () => {
+			let site = {
+				title: '',
+				url: '',
+				icon: ''
+			};
+			myNewTabWE.editSite(site).then(() => {
+				group.list.push(site);
+				myNewTabWE.setStorage();
+				let node = myNewTabWE.buildTr(site, group.list, row.cloneNode(true));
+				table.appendChild(node);
+				node.scrollIntoView(false);   //与滚动区的可视区域的底端对齐
+			});
+		}, false);
+		node.querySelector('.group-rename').addEventListener('click', () => {
+			let name = prompt('请输入分组名', group.name);
+			if (name != null) {
+				group.name = name;
+				myNewTabWE.setStorage();
+				node.querySelector('.group-name').textContent = group.name;
+			}
+		}, false);
+		node.querySelector('.group-delete').addEventListener('click', () => {
+			myNewTabWE.sites.splice(myNewTabWE.sites.indexOf(group), 1);
+			myNewTabWE.setStorage();
+			$id('sites').removeChild(node);
+		}, false);
+		for (let site of group.list) {
+			table.appendChild(myNewTabWE.buildTr(site, group.list, row.cloneNode(true)));
+		}
+		return node;
+	},
+	buildTr: (site, list, node) => {
+		node.removeAttribute('hidden');
+		node.querySelector('.row-title').textContent = site.title;
+		node.querySelector('.row-url').textContent = site.url;
+		node.querySelector('.row-icon').textContent = site.icon;
+		node.querySelector('.row-edit').addEventListener('click', () => {
+			myNewTabWE.editSite(site).then(() => {
+				node.querySelector('.row-title').textContent = site.title;
+				node.querySelector('.row-url').textContent = site.url;
+				node.querySelector('.row-icon').textContent = site.icon;
+				myNewTabWE.setStorage();
+			});
+		}, false);
+		node.querySelector('.row-delete').addEventListener('click', () => {
+			list.splice(list.indexOf(site), 1);
+			myNewTabWE.setStorage();
+			node.parentNode.removeChild(node);
+		}, false);
+		return node;
+	},
+	editSite: site => {
+		return new Promise((resolve, reject) => {
+			$id('edit-title').value = site.title;
+			$id('edit-url').value = site.url;
+			$id('edit-icon').value = site.icon;
+			$id('edit-confirm').addEventListener('click', () => {
+				site.title = $id('edit-title').value;
+				site.url = $id('edit-url').value;
+				site.icon = $id('edit-icon').value;
+				$id('edit-modal').style.display = 'none';
+				resolve();
+			}, {once: true});
+			$id('edit-cancel').addEventListener('click', () => {
+				$id('edit-modal').style.display = 'none';
+				reject();
+			}, {once: true});
+			$id('edit-modal').style.display = 'flex';
 		});
 	}
 };
