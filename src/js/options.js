@@ -66,13 +66,10 @@ let myNewTabWE = {
 	
 	//初始化导入导出功能
 	initImportExport: () => {
+		let upload = $id('upload');
 		$id('import').addEventListener('click', () => {
-			let input = document.createElement('input');
-			input.setAttribute('accept', 'application/json');
-			input.setAttribute('hidden', 'hidden');
-			input.setAttribute('type', 'file');
-			document.body.appendChild(input);
-			input.addEventListener('change', () => {
+			upload.setAttribute('accept', 'application/json');
+			upload.onchange = () => {
 				let reader = new FileReader();
 				reader.onload = () => {
 					let storage;
@@ -88,9 +85,9 @@ let myNewTabWE = {
 						myNewTabWE.notify(e, '设置myNewTabWE配置失败');
 					});
 				};
-				reader.readAsText(input.files[0]);
-			}, {once: true});
-			input.click();
+				reader.readAsText(upload.files[0]);
+			};
+			upload.click();
 		}, false);
 		$id('export').addEventListener('click', () => {
 			let download = document.createElement('a');
