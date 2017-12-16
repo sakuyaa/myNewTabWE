@@ -257,6 +257,7 @@ let myNewTabWE = {
 				reject();
 			}, {once: true});
 			$id('edit-modal').style.display = 'flex';
+			$id('edit-title').focus();
 		});
 	}
 };
