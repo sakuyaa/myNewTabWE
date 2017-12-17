@@ -2,7 +2,7 @@
 	"applications": {
 		"gecko": {
 			"id": "myNewTabWE@sakuyaa",
-			"strict_min_version": "55.0",
+			"strict_min_version": "56.0",
 			"update_url": "https://raw.githubusercontent.com/sakuyaa/myNewTabWE/master/release/updates.json"
 		}
 	},
