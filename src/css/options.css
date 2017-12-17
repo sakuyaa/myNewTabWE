@@ -17,11 +17,9 @@ tr:hover {
 th {
 	background-color: #EEEEEE;   /*表头保持背景色*/
 	padding: .5em;
-	text-align: left;
 }
 td {
 	padding: .5em;
-	text-align: left;
 }
 button {
 	background-color: #F9F9F9;
@@ -67,15 +65,18 @@ input:focus {   /*输入框聚焦效果*/
 .group-table td {   /*修剪文本*/
 	overflow: hidden;
 	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .group-table th:first-child {
 	width: 7em;   /*固定表格布局需要对第一行各项控制宽度*/
 }
+.group-table th:nth-child(2) {
+	width: 2em;
+}
 .group-table th:last-child {   /*操作列*/
-	text-align: center;
 	width: 9em;
 }
-.group-table td:last-child {   /*按钮居中*/
+.group-table td:nth-child(2), .group-table td:last-child {   /*图标按钮居中*/
 	text-align: center;
 }
 

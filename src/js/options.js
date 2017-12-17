@@ -223,16 +223,16 @@ let myNewTabWE = {
 	buildTr: (site, list, node) => {
 		node.removeAttribute('hidden');
 		let title = node.querySelector('.row-title'),
-			url = node.querySelector('.row-url'),
-			icon = node.querySelector('.row-icon');
+			img = node.querySelector('.row-icon img'),
+			url = node.querySelector('.row-url');
 		title.textContent = title.title = site.title;
+		img.src = img.title = site.icon;
 		url.textContent = url.title = site.url;
-		icon.textContent = icon.title = site.icon;
 		node.querySelector('.row-edit').addEventListener('click', () => {
 			myNewTabWE.editSite(site).then(() => {
 				title.textContent = title.title = site.title;
+				img.src = img.title = site.icon;
 				url.textContent = url.title = site.url;
-				icon.textContent = icon.title = site.icon;
 				myNewTabWE.setStorage();
 			});
 		}, false);
