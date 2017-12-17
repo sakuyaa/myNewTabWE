@@ -222,14 +222,17 @@ let myNewTabWE = {
 	},
 	buildTr: (site, list, node) => {
 		node.removeAttribute('hidden');
-		node.querySelector('.row-title').textContent = site.title;
-		node.querySelector('.row-url').textContent = site.url;
-		node.querySelector('.row-icon').textContent = site.icon;
+		let title = node.querySelector('.row-title'),
+			url = node.querySelector('.row-url'),
+			icon = node.querySelector('.row-icon');
+		title.textContent = title.title = site.title;
+		url.textContent = url.title = site.url;
+		icon.textContent = icon.title = site.icon;
 		node.querySelector('.row-edit').addEventListener('click', () => {
 			myNewTabWE.editSite(site).then(() => {
-				node.querySelector('.row-title').textContent = site.title;
-				node.querySelector('.row-url').textContent = site.url;
-				node.querySelector('.row-icon').textContent = site.icon;
+				title.textContent = title.title = site.title;
+				url.textContent = url.title = site.url;
+				icon.textContent = icon.title = site.icon;
 				myNewTabWE.setStorage();
 			});
 		}, false);
