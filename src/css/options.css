@@ -79,6 +79,11 @@ input:focus {   /*输入框聚焦效果*/
 .group-table td:nth-child(2), .group-table td:last-child {   /*图标按钮居中*/
 	text-align: center;
 }
+.group-table img {
+	height: 1em;
+	margin-bottom: -.15em;   /*与文字对齐*/
+	width: 1em;
+}
 
 #edit-modal {   /*模态框遮罩*/
 	align-items: center;
