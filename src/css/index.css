@@ -11,11 +11,6 @@
 	z-index: 9;
 }
 
-/*去除因主框架右移导致的滚动条*/
-html {
-	overflow-x: hidden;
-} 
-
 body {
 	font-family: "microsoft yahei", sans-serif;
 	background-attachment: fixed;
@@ -23,19 +18,19 @@ body {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	overflow: auto;
+	margin: 0;   /*避免容器大小100%造成的滚动条*/
 }
 
 #main {
-	left: 50%;   /*主框架右移*/
-	width: 100%;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
 	position: absolute;
-	margin-bottom: 1em;   /*导航底部保留空间*/
+	width: 100%;
 }
 
 /*日历整体*/
 #date {
-	transform: translateX(-50%);   /*左移使之居中*/
 	margin: .25em 0;
 	color: #1E90FF;
 	font-family: "monotype corsiva", sans-serif;
@@ -61,11 +56,10 @@ body {
 
 /*导航整体面板*/
 #navs {
-	transform: translateX(-50%);   /*左移使之居中*/
-	float: left;   /*宽度自适应*/
 	max-width: 80%;   /*最大宽度*/
 	background-color: #111;
 	border: .1em solid gray;
+	margin-bottom: 1em;   /*导航底部保留空间*/
 	opacity: .65;
 }
 /*导航链接*/
