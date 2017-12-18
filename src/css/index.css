@@ -59,6 +59,7 @@ body {
 	max-width: 80%;   /*最大宽度*/
 	background-color: #111;
 	border: .1em solid gray;
+	border-radius: 1em;
 	margin-bottom: 1em;   /*导航底部保留空间*/
 	opacity: .65;
 }
@@ -78,12 +79,12 @@ body {
 
 /*导航标题*/
 #navtitle {
-	padding: .4em;
 	color: white;
 	font-size: 1.25em;
 	font-weight: bold;
 	border-bottom: .15em solid #555;
 	opacity: .7;
+	padding: .4em .8em;
 }
 /*切换、定位、编辑按钮*/
 #navtitle a {
@@ -101,18 +102,17 @@ body {
 }
 /*设置导航分类*/
 #navtable th {
-	width: 6.5em;
-	padding-top: .3em;   /*使之与文字对齐*/
 	color: gray;
+	padding: .2em 0;
 	text-align: left;
-	vertical-align: top;
+	width: 6em;
 }
 /*设置导航单元大小*/
 #navtable td {
-	float: left;
-	margin: .25em 0;
-	width: 7.5em;
+	float: left;   /*超出自动换行*/
 	opacity: .9;
+	padding: .2em;
+	width: 7.2em;   /*文字长度6加上图标1和图标文字间的间隔0.2*/
 }
 /*设置导航链接hover时*/
 #navtable a:hover {
