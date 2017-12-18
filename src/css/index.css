@@ -68,7 +68,13 @@ body {
 	outline: none;   /*不显示虚框*/
 	text-decoration: none;
 }
-
+/*导航图标*/
+#navs img {
+	height: 1em;
+	margin-bottom: -.15em;   /*与文字对齐*/
+	margin-right: .2em;   /*与文字的间隔*/
+	width: 1em;
+}
 
 /*导航标题*/
 #navtitle {
@@ -78,13 +84,6 @@ body {
 	font-weight: bold;
 	border-bottom: .15em solid #555;
 	opacity: .7;
-}
-/*导航标题链接图标*/
-#navtitle img {
-	height: 1em;
-	width: 1em;
-	margin-right: .25em;
-	margin-bottom: -.1em;
 }
 /*切换、定位、编辑按钮*/
 #navtitle a {
@@ -99,13 +98,6 @@ body {
 /*导航表格*/
 #navtable {
 	padding: .25em 1em;
-}
-/*设置导航链接图标*/
-#navtable img {
-	height: 1em;
-	width: 1em;
-	margin-right: .25em;
-	margin-bottom: -.2em;
 }
 /*设置导航分类*/
 #navtable th {

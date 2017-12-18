@@ -260,10 +260,6 @@ let myNewTabWE = {
 			if (myNewTabWE.config.newTabOpen) {
 				a.setAttribute('target', '_blank');
 			}
-			
-			//设置图片的属性
-			img.width = 16;
-			img.height = 16;
 			if (site.icon) {
 				img.src = site.icon;
 			} else {
