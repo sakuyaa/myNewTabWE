@@ -241,12 +241,10 @@ let myNewTabWE = {
 	buildTr: list => {
 		let tr = document.createElement('tr'),
 			th = document.createElement('th'),
-			span = document.createElement('span'),
 			td, a, img, textNode, path;
 		
 		//添加分类
-		span.textContent = list.name;
-		th.appendChild(span);
+		th.textContent = list.name;
 		tr.appendChild(th);
 		
 		//添加站点
