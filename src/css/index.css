@@ -5,19 +5,19 @@
 **************************************************/
 /*天气*/
 #weather {
+	left: 0;
 	position: fixed;
 	top: .5em;
-	left: 0em;
 	z-index: 9;
 }
 
 body {
-	font-family: "microsoft yahei", sans-serif;
 	background-attachment: fixed;
 	background-color: #EDEDED;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	font-family: "microsoft yahei", sans-serif;
 	margin: 0;   /*避免容器大小100%造成的滚动条*/
 }
 
@@ -31,11 +31,9 @@ body {
 
 /*日历整体*/
 #date {
-	margin: .25em 0;
 	color: #1E90FF;
-	font-family: "monotype corsiva", sans-serif;
-	font-size: 3em;
-	font-weight: bold;
+	font: bold 3em "monotype corsiva", sans-serif;
+	margin: .25em 0;
 	text-align: center;
 	text-shadow: .1em .1em .1em black;
 }
@@ -56,11 +54,11 @@ body {
 
 /*导航整体面板*/
 #navs {
-	max-width: 80%;   /*最大宽度*/
 	background-color: #111;
 	border: .1em solid gray;
 	border-radius: 1em;
 	margin-bottom: 1em;   /*导航底部保留空间*/
+	max-width: 80%;   /*最大宽度*/
 	opacity: .65;
 }
 /*导航链接*/
@@ -79,18 +77,18 @@ body {
 
 /*导航标题*/
 #navtitle {
+	border-bottom: .15em solid #555;
 	color: white;
 	font-size: 1.25em;
 	font-weight: bold;
-	border-bottom: .15em solid #555;
 	opacity: .7;
 	padding: .4em .8em;
 }
-/*切换、定位、编辑按钮*/
+/*导航标题按钮*/
 #navtitle a {
 	float: right;
-	padding: 0 .2em;
 	opacity: .5;
+	padding: 0 .2em;
 }
 #navtitle a:hover {
 	opacity: 1;
@@ -116,7 +114,7 @@ body {
 }
 /*设置导航链接hover时*/
 #navtable a:hover {
-	transition: color 0.423s ease, text-shadow 0.423s ease;
 	color: rgba(255, 255, 255, 1);
 	text-shadow: 0 1px rgba(64, 64, 255, 0.9), 0 1px 1px rgba(64, 64, 255, 0.9), 0 -1px 1px rgba(64, 64, 255, 0.9), 1px 0 1px rgba(64, 64, 255, 0.9), -1px 0 1px rgba(64, 64, 255, 0.9), 0 0 3px rgba(64, 64, 255, 0.9);
+	transition: color 0.423s ease, text-shadow 0.423s ease;
 }
