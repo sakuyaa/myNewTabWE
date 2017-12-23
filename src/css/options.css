@@ -16,16 +16,16 @@ tr:hover {
 }
 th {
 	background-color: #EEEEEE;   /*表头保持背景色*/
-	padding: .5em;
+	padding: .3em;
 }
 td {
-	padding: .5em;
+	padding: .3em;
 }
 button {
 	background-color: #F9F9F9;
 	border: .1em solid gray;
 	border-radius: .5em;
-	margin: 0 .5em;
+	margin: 0 .3em;
 	padding: .3em 1em;
 }
 button:hover {
