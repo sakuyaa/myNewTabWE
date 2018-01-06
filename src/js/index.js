@@ -167,23 +167,25 @@ let myNewTabWE = {
 			myNewTabWE.getBingImage();
 		}, false);
 		
-		$id('weather').src = myNewTabWE.config.weatherSrc;
-		$id('weather').onload = () => {   //天气页面插入css
-			browser.tabs.getCurrent().then(tab => {
-				browser.webNavigation.getAllFrames({tabId: tab.id}).then(array => {
-					for (let frame of array) {
-						if (frame.frameId != 0) {
-							browser.tabs.insertCSS({
-								cssOrigin: 'user',
-								file: browser.extension.getURL('css/weather.css'),
-								frameId: frame.frameId,
-								runAt: 'document_start'
-							});
-						}
+		$id('weather').onload = async () => {   //天气页面插入css
+			try {
+				let tab = await browser.tabs.getCurrent();
+				let array = await browser.webNavigation.getAllFrames({tabId: tab.id});
+				for (let frame of array) {
+					if (frame.frameId) {
+						await browser.tabs.insertCSS({
+							cssOrigin: 'user',
+							file: browser.extension.getURL('css/weather.css'),
+							frameId: frame.frameId,
+							runAt: 'document_start'
+						});
 					}
-				});
-			});
+				}
+			} catch(e) {
+				myNewTabWE.notify(e, '天气栏css加载失败');
+			}
 		};
+		$id('weather').src = myNewTabWE.config.weatherSrc;
 	},
 	
 	getBingImage: () => {
