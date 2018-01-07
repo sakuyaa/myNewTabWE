@@ -160,7 +160,7 @@ let myNewTabWE = {
 				xhr.onload = () => {
 					if (xhr.status == 200) {
 						let icon = xhr.response.querySelector('link[rel~=icon]');
-						if (icon) {
+						if (icon && icon.href) {
 							iconUrl = icon.href;
 						} else {
 							console.log($id('edit-url').value + ' 没有指定图标，尝试获取favicon.ico');
