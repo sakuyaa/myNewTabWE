@@ -133,6 +133,9 @@ let myNewTabWE = {
 				node.scrollIntoView(false);   //与滚动区的可视区域的底端对齐
 			}
 		}, false);
+	},
+	//初始化编辑界面
+	initEdit: () => {
 		let upload = $id('upload');
 		$id('edit-upload').addEventListener('click', () => {
 			upload.setAttribute('accept', 'image/*');
@@ -145,12 +148,55 @@ let myNewTabWE = {
 			};
 			upload.click();
 		}, false);
+		$id('edit-geticon').addEventListener('click', () => {
+			let iconUrl = /^https?:\/\/[^\/]+/i.exec($id('edit-url').value);   //获取host
+			if (iconUrl) {
+				$id('edit-geticon').textContent = '正在获取';
+				iconUrl += '/favicon.ico';
+				let xhr = new XMLHttpRequest();
+				xhr.responseType = 'document';
+				xhr.open('GET', $id('edit-url').value, true);
+				xhr.onload = () => {
+					if (xhr.status == 200) {
+						let icon = xhr.response.querySelector('link[rel~=icon]');
+						if (icon) {
+							iconUrl = icon.href;
+						} else {
+							console.log($id('edit-url').value + ' 没有指定图标，尝试获取favicon.ico');
+						}
+					} else {
+						console.log(new Error(xhr.statusText));
+					}
+					//获取图标
+					xhr = new XMLHttpRequest();
+					xhr.responseType = 'blob';
+					xhr.open('GET', iconUrl, true);
+					xhr.onload = () => {
+						if (xhr.status == 200) {
+							let reader = new FileReader();
+							reader.onload = () => {
+								$id('edit-icon').value = reader.result;
+							};
+							reader.readAsDataURL(xhr.response);
+						} else {
+							myNewTabWE.notify(new Error(xhr.statusText), '获取图标失败');
+						}
+						$id('edit-geticon').textContent = '自动获取';
+					};
+					xhr.send(null);
+				};
+				xhr.send(null);
+			} else {
+				myNewTabWE.notify($id('edit-url').value, '不是标准http网址');
+			}
+		}, false);
 	},
 	
 	init: () => {
 		myNewTabWE.initImportExport();
 		myNewTabWE.initConf();
 		myNewTabWE.initSites();
+		myNewTabWE.initEdit();
 	},
 	
 	//选项变更时保存
@@ -248,6 +294,7 @@ let myNewTabWE = {
 			$id('edit-title').value = site.title;
 			$id('edit-url').value = site.url;
 			$id('edit-icon').value = site.icon;
+			$id('edit-geticon').textContent = '自动获取';
 			$id('edit-confirm').addEventListener('click', () => {
 				site.title = $id('edit-title').value;
 				site.url = $id('edit-url').value;
