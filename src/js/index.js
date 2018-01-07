@@ -191,6 +191,7 @@ let myNewTabWE = {
 			let xhr = new XMLHttpRequest();
 			xhr.responseType = 'json';
 			xhr.open('GET', 'https://cn.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=zh-CN&idx=' + myNewTabWE.bingIndex % myNewTabWE.config.bingMaxHistory, true);
+			xhr.setRequestHeader('referrer', 'https://cn.bing.com/');
 			xhr.onload = () => {
 				if (xhr.status == 200) {
 					resolve(xhr.response.images[0]);
