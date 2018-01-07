@@ -146,10 +146,13 @@ let myNewTabWE = {
 			};
 			upload.click();
 		}, false);
+		let count = 0;   //用来判断获取到的图标时的模态框是否还是原来的
+		$id('edit-modal').setAttribute('count', count);
 		$id('edit-geticon').addEventListener('click', () => {
 			let iconUrl = /^https?:\/\/[^\/]+/i.exec($id('edit-url').value);   //获取host
 			if (iconUrl) {
 				$id('edit-geticon').textContent = '正在获取';
+				count = parseInt($id('edit-modal').getAttribute('count'));
 				iconUrl += '/favicon.ico';
 				let xhr = new XMLHttpRequest();
 				xhr.responseType = 'document';
@@ -173,7 +176,9 @@ let myNewTabWE = {
 						if (xhr.status == 200) {
 							let reader = new FileReader();
 							reader.onload = () => {
-								$id('edit-icon').value = reader.result;
+								if (count == parseInt($id('edit-modal').getAttribute('count'))) {
+									$id('edit-icon').value = reader.result;
+								}
 							};
 							reader.readAsDataURL(xhr.response);
 						} else {
@@ -288,6 +293,7 @@ let myNewTabWE = {
 		return node;
 	},
 	editSite: site => {
+		$id('edit-modal').setAttribute('count', parseInt($id('edit-modal').getAttribute('count')) + 1);
 		return new Promise((resolve, reject) => {
 			$id('edit-title').value = site.title;
 			$id('edit-url').value = site.url;
