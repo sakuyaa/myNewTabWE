@@ -299,17 +299,17 @@ let myNewTabWE = {
 			$id('edit-url').value = site.url;
 			$id('edit-icon').value = site.icon;
 			$id('edit-geticon').textContent = '自动获取';
-			$id('edit-confirm').addEventListener('click', () => {
+			$id('edit-confirm').onclick = () => {
 				site.title = $id('edit-title').value;
 				site.url = $id('edit-url').value;
 				site.icon = $id('edit-icon').value;
 				$id('edit-modal').style.display = 'none';
 				resolve();
-			}, {once: true});
-			$id('edit-cancel').addEventListener('click', () => {
+			};
+			$id('edit-cancel').onclick = () => {
 				$id('edit-modal').style.display = 'none';
 				reject();
-			}, {once: true});
+			};
 			$id('edit-modal').style.display = 'flex';
 			$id('edit-title').focus();
 		});
