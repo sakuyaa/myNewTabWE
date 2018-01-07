@@ -20,7 +20,7 @@ let myNewTabWE = {
 			type: 'basic',
 			message: message + '',
 			title: title,
-			iconUrl: browser.extension.getURL('image/myNewTabWE.svg')
+			iconUrl: browser.extension.getURL('image/home.svg')
 		});
 	},
 	
