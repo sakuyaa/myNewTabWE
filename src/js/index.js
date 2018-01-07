@@ -6,9 +6,7 @@
 'use strict';
 
 //简化函数
-const $id = id => {
-	return document.getElementById(id);
-};
+const $id = id => document.getElementById(id);
 
 let myNewTabWE = {
 	bingIndex: 0,   //Bing图片历史天数
