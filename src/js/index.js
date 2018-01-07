@@ -260,16 +260,7 @@ let myNewTabWE = {
 			if (myNewTabWE.config.newTabOpen) {
 				a.setAttribute('target', '_blank');
 			}
-			if (site.icon) {
-				img.src = site.icon;
-			} else {
-				let host = /^[^\/]+\/\/[^\/]+\//i.exec(site.url);
-				if (host) {
-					img.src = 'moz-anno:favicon:' + host[0] + 'favicon.ico';
-				} else {
-					img.src = 'moz-anno:favicon:' + site.url;
-				}
-			}
+			img.src = site.icon ? site.icon : browser.extension.getURL('image/default.svg');
 			
 			a.appendChild(img);
 			a.appendChild(textNode);
