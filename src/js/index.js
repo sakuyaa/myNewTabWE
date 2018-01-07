@@ -206,12 +206,13 @@ let myNewTabWE = {
 			xhr.send(null);
 		}).then(data => {
 			//处理图片地址
-			myNewTabWE.imageData.imageUrl = data.url;
-			if (myNewTabWE.config.useBigImage) {
-				myNewTabWE.imageData.imageUrl = myNewTabWE.imageData.imageUrl.replace('1366x768', '1920x1080');
+			if (!data.url.startsWith('http')) {
+				data.url = 'https://www.bing.com' + data.url;
 			}
-			if (!myNewTabWE.imageData.imageUrl.startsWith('http')) {
-				myNewTabWE.imageData.imageUrl = 'https://www.bing.com' + myNewTabWE.imageData.imageUrl;
+			if (myNewTabWE.config.useBigImage) {
+				myNewTabWE.imageData.imageUrl = data.url.replace('1366x768', '1920x1080');
+			} else {
+				myNewTabWE.imageData.imageUrl = data.url.replace('1920x1080', '1366x768');
 			}
 			document.body.style.backgroundImage = 'url("' + myNewTabWE.imageData.imageUrl + '")';
 			
