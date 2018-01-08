@@ -18,6 +18,14 @@
 							"strict_min_version": "56.0"
 						}
 					}
+				}, {
+					"version": "1.2",
+					"update_link": "https://raw.githubusercontent.com/sakuyaa/myNewTabWE/master/release/myNewTabWE-1.2.xpi",
+					"applications": {
+						"gecko": {
+							"strict_min_version": "56.0"
+						}
+					}
 				}
 			]
 		}
