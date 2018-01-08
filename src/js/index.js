@@ -175,6 +175,7 @@ let myNewTabWE = {
 							cssOrigin: 'user',
 							file: browser.extension.getURL('css/weather.css'),
 							frameId: frame.frameId,
+							matchAboutBlank: true,
 							runAt: 'document_start'
 						});
 					}
