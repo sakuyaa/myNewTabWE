@@ -88,15 +88,15 @@ let myNewTabWE = {
 			upload.click();
 		}, false);
 		$id('export').addEventListener('click', () => {
-			let download = document.createElement('a');
-			download.setAttribute('download', 'myNewTabWE.json');
-			let storage = {
-				config: myNewTabWE.config,
-				imageData: myNewTabWE.imageData,
-				sites: myNewTabWE.sites
-			};
-			download.setAttribute('href', URL.createObjectURL(new Blob([JSON.stringify(storage, null, '\t')])));
-			download.dispatchEvent(new MouseEvent('click'));
+			browser.downloads.download({
+				filename: 'myNewTabWE.json',
+				saveAs: true,
+				url: URL.createObjectURL(new Blob([JSON.stringify({
+					config: myNewTabWE.config,
+					imageData: myNewTabWE.imageData,
+					sites: myNewTabWE.sites
+				}, null, '\t')]))
+			});
 		}, false);
 	},
 	//初始化选项
