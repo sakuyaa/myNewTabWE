@@ -22,6 +22,7 @@
 	"manifest_version": 2,
 	"name": "myNewTab WE",
 	"options_ui": {
+		"browser_style": false,
 		"open_in_tab": true,
 		"page": "html/options.html"
 	},
