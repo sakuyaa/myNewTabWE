@@ -128,7 +128,7 @@ let myNewTabWE = {
 				myNewTabWE.setStorage();
 				let node = myNewTabWE.buildGroup(group);
 				$id('sites').appendChild(node);
-				node.scrollIntoView(false);   //与滚动区的可视区域的底端对齐
+				node.scrollIntoView({behavior: 'smooth', block: 'end'});   //与滚动区的可视区域的底端对齐
 			}
 		}, false);
 	},
@@ -248,7 +248,7 @@ let myNewTabWE = {
 				myNewTabWE.setStorage();
 				let node = myNewTabWE.buildTr(site, group.list, row.cloneNode(true));
 				table.appendChild(node);
-				node.scrollIntoView(false);   //与滚动区的可视区域的底端对齐
+				node.scrollIntoView({behavior: 'smooth', block: 'end'});   //与滚动区的可视区域的底端对齐
 			});
 		}, false);
 		node.querySelector('.group-rename').addEventListener('click', () => {
