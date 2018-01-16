@@ -25,7 +25,6 @@ button {
 	background-color: #F9F9F9;
 	border: .1em solid gray;
 	border-radius: .5em;
-	margin: 0 .3em;
 	padding: .3em 1em;
 }
 button:hover {
@@ -53,8 +52,7 @@ input:focus {   /*输入框聚焦效果*/
 }
 .header button {
 	float: right;   /*按钮靠右*/
-	margin: -.2em .5em;
-	width: 7em;
+	margin: -.2em .2em;
 }
 .content {
 	padding: .5em 1em;
@@ -74,7 +72,7 @@ input:focus {   /*输入框聚焦效果*/
 	width: 2em;
 }
 .group-table th:last-child {   /*操作列*/
-	width: 9em;
+	width: 15em;
 }
 .group-table td:nth-child(2), .group-table td:last-child {   /*图标按钮居中*/
 	text-align: center;

@@ -237,6 +237,24 @@ let myNewTabWE = {
 			row = node.querySelector('.template-row');
 		
 		node.querySelector('.group-name').textContent = group.name;
+		node.querySelector('.group-up').addEventListener('click', () => {
+			let index = myNewTabWE.sites.indexOf(group);
+			if (index) {   //不是第一个
+				myNewTabWE.sites[index - 1] = myNewTabWE.sites.splice(index, 1, myNewTabWE.sites[index - 1])[0];
+				myNewTabWE.setStorage();
+				node.parentNode.insertBefore(node, node.previousElementSibling);
+				node.scrollIntoView({behavior: 'smooth', block: 'start'});
+			}
+		}, false);
+		node.querySelector('.group-down').addEventListener('click', () => {
+			let index = myNewTabWE.sites.indexOf(group);
+			if (index + 1 < myNewTabWE.sites.length) {   //不是最后一个
+				myNewTabWE.sites[index + 1] = myNewTabWE.sites.splice(index, 1, myNewTabWE.sites[index + 1])[0];
+				myNewTabWE.setStorage();
+				node.parentNode.insertBefore(node.nextElementSibling, node);
+				node.scrollIntoView({behavior: 'smooth', block: 'start'});
+			}
+		}, false);
 		node.querySelector('.group-add').addEventListener('click', () => {
 			let site = {
 				title: '',
@@ -277,6 +295,22 @@ let myNewTabWE = {
 		title.textContent = title.title = site.title;
 		img.src = img.title = site.icon;
 		url.textContent = url.title = site.url;
+		node.querySelector('.row-up').addEventListener('click', () => {
+			let index = list.indexOf(site);
+			if (index) {   //不是第一个
+				list[index - 1] = list.splice(index, 1, list[index - 1])[0];
+				myNewTabWE.setStorage();
+				node.parentNode.insertBefore(node, node.previousElementSibling);
+			}
+		}, false);
+		node.querySelector('.row-down').addEventListener('click', () => {
+			let index = list.indexOf(site);
+			if (index + 1 < list.length) {   //不是最后一个
+				list[index + 1] = list.splice(index, 1, list[index + 1])[0];
+				myNewTabWE.setStorage();
+				node.parentNode.insertBefore(node.nextElementSibling, node);
+			}
+		}, false);
 		node.querySelector('.row-edit').addEventListener('click', () => {
 			myNewTabWE.editSite(site).then(() => {
 				title.textContent = title.title = site.title;
