@@ -8,7 +8,7 @@
 	left: 0;
 	position: fixed;
 	top: .5em;
-	z-index: 9;
+	z-index: 1;
 }
 
 body {
@@ -36,6 +36,7 @@ body {
 	margin: .25em 0;
 	text-align: center;
 	text-shadow: .1em .1em .1em black;
+	z-index: 9;
 }
 /*农历*/
 #lunar {
@@ -59,6 +60,7 @@ body {
 	border-radius: 1em;
 	margin-bottom: 1em;   /*导航底部保留空间*/
 	max-width: 80%;   /*最大宽度*/
+	z-index: 9;
 }
 /*导航链接*/
 #navs a {
