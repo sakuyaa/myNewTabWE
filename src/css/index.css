@@ -54,15 +54,15 @@ body {
 
 /*导航整体面板*/
 #navs {
-	background-color: #111;
+	background-color: rgba(0, 0, 0, .5);
 	border: .1em solid gray;
 	border-radius: 1em;
 	margin-bottom: 1em;   /*导航底部保留空间*/
 	max-width: 80%;   /*最大宽度*/
-	opacity: .65;
 }
 /*导航链接*/
 #navs a {
+	color: white;
 	outline: none;   /*不显示虚框*/
 	text-decoration: none;
 }
@@ -76,7 +76,7 @@ body {
 
 /*导航标题*/
 #navtitle {
-	border-bottom: .15em solid #555;
+	border-bottom: .15em solid rgba(123, 123, 123, .65);
 	color: rgba(255, 255, 255, .65);
 	font-size: 1.25em;
 	font-weight: bold;
@@ -84,7 +84,6 @@ body {
 }
 /*导航标题按钮*/
 #navtitle a {
-	color: white;
 	float: right;
 	opacity: .5;
 	padding: 0 .2em;
@@ -112,10 +111,10 @@ body {
 }
 /*设置导航链接*/
 #navtable a {
-	color: rgba(255, 255, 255, .8);
+	opacity: .8;
 }
 #navtable a:hover {
-	color: rgba(255, 255, 255, 1);
+	opacity: 1;
 	text-shadow: 0 1px rgba(64, 64, 255, 0.9), 0 1px 1px rgba(64, 64, 255, 0.9), 0 -1px 1px rgba(64, 64, 255, 0.9), 1px 0 1px rgba(64, 64, 255, 0.9), -1px 0 1px rgba(64, 64, 255, 0.9), 0 0 3px rgba(64, 64, 255, 0.9);
 	transition: color 0.423s ease, text-shadow 0.423s ease;
 }
