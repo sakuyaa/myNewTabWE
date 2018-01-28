@@ -173,18 +173,18 @@ let myNewTabWE = {
 					xhr.responseType = 'blob';
 					xhr.open('GET', iconUrl, true);
 					xhr.onload = () => {
-						if (xhr.status == 200) {
-							let reader = new FileReader();
-							reader.onload = () => {
-								if (count == parseInt($id('edit-modal').getAttribute('count'))) {
+						if (count == parseInt($id('edit-modal').getAttribute('count'))) {
+							if (xhr.status == 200) {
+								let reader = new FileReader();
+								reader.onload = () => {
 									$id('edit-icon').value = reader.result;
-								}
-							};
-							reader.readAsDataURL(xhr.response);
-						} else {
-							myNewTabWE.notify(new Error(xhr.statusText), '获取图标失败');
+								};
+								reader.readAsDataURL(xhr.response);
+							} else {
+								myNewTabWE.notify(new Error(xhr.statusText), '获取图标失败');
+							}
+							$id('edit-geticon').textContent = '自动获取';
 						}
-						$id('edit-geticon').textContent = '自动获取';
 					};
 					xhr.send(null);
 				};
@@ -327,7 +327,6 @@ let myNewTabWE = {
 		return node;
 	},
 	editSite: site => {
-		$id('edit-modal').setAttribute('count', parseInt($id('edit-modal').getAttribute('count')) + 1);
 		return new Promise((resolve, reject) => {
 			$id('edit-title').value = site.title;
 			$id('edit-url').value = site.url;
@@ -338,10 +337,12 @@ let myNewTabWE = {
 				site.url = $id('edit-url').value;
 				site.icon = $id('edit-icon').value;
 				$id('edit-modal').style.display = 'none';
+				$id('edit-modal').setAttribute('count', parseInt($id('edit-modal').getAttribute('count')) + 1);
 				resolve();
 			};
 			$id('edit-cancel').onclick = () => {
 				$id('edit-modal').style.display = 'none';
+				$id('edit-modal').setAttribute('count', parseInt($id('edit-modal').getAttribute('count')) + 1);
 				reject();
 			};
 			$id('edit-modal').style.display = 'flex';
