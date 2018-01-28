@@ -3,6 +3,10 @@
 *	
 *	https://github.com/sakuyaa/
 **************************************************/
+/*使其自适应网页宽度*/
+body {
+	float: left;
+}
 /*链接白字蓝光*/
 a {
 	color: rgba(255, 255, 255, 1) !important;
