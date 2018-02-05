@@ -33,6 +33,9 @@ button:hover {
 button:active {   /*点击效果*/
 	background-color: #BBBBBB;
 }
+input {
+	background-color: #F9F9F9;
+}
 input:focus {   /*输入框聚焦效果*/
 	box-shadow: 0 0 1em 0 #999999;
 	transition: box-shadow .1s ease-in-out; 
