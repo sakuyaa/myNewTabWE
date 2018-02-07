@@ -103,8 +103,8 @@ input:focus {   /*输入框聚焦效果*/
 	border-bottom-left-radius: .5em;
 	border-bottom-right-radius: .5em;
 }
-#edit-modal input:not([size]) {   /*除图标列之外输入框长度*/
-	width: 100%;
+#edit-modal input:not([size]), #title, #weather-src {   /*除图标列之外输入框长度*/
+	width: 99%;
 }
 #confirm {   /*确认取消按钮位置*/
 	border-top: .1em solid gray;
