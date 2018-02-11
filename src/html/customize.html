@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>定制页面</title>
+		<link rel="icon" href="../image/home.svg" type="image/svg+xml" />
+		<link rel="stylesheet" href="../css/customize.css" />
+	</head>
+	<body>
+		<h3 id="tips"></h3>
+		<div class="group">
+			<div class="header">
+				<span>定制天气</span>
+				<a href="../css/weather.css" target="_blank"><button>浏览</button></a>
+				<button id="weather-default">默认</button>
+				<button id="weather-save">保存</button>
+			</div>
+			<div class="content">
+				<textarea id="weather-css" placeholder="请先加载默认css，以便在此基础上进行编辑，编辑后请点击保存"></textarea>
+			</div>
+		</div>
+		<div class="group">
+			<div class="header">
+				<span>定制主页</span>
+				<a href="../css/index.css" target="_blank"><button>浏览</button></a>
+				<button id="index-default">默认</button>
+				<button id="index-save">保存</button>
+			</div>
+			<div class="content">
+				<textarea id="index-css" placeholder="请先加载默认css，以便在此基础上进行编辑，编辑后请点击保存"></textarea>
+			</div>
+		</div>
+		<script src="../js/customize.js"></script>
+	</body>
+</html>

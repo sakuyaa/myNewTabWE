@@ -13,6 +13,10 @@ let myNewTabWE = {
 	config: {},
 	imageData: {},
 	sites: [],
+	css: {
+		index: '',
+		weather: ''
+	},
 	
 	//显示桌面通知
 	notify: (message, title) => {
@@ -40,11 +44,16 @@ let myNewTabWE = {
 					imageName: '',
 					imageUrl: ''
 				},
-				sites: []
+				sites: [],
+				css: {
+					index: '',
+					weather: ''
+				}
 			}).then(storage => {
 				myNewTabWE.config = storage.config;
 				myNewTabWE.imageData = storage.imageData;
 				myNewTabWE.sites = storage.sites;
+				myNewTabWE.css = storage.css;
 				resolve();
 			}, e => {
 				myNewTabWE.notify(e, '获取myNewTabWE配置失败');
@@ -53,6 +62,21 @@ let myNewTabWE = {
 		});
 	},
 	
+	//初始化css
+	initCss: () => {
+		if (myNewTabWE.css.index) {
+			let style = document.createElement('style');
+			style.rel = 'stylesheet';
+			style.type = 'text/css';
+			style.appendChild(document.createTextNode(myNewTabWE.css.index));
+			document.head.appendChild(style);
+		} else {
+			let link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.href = '../css/index.css';
+			document.head.appendChild(link);
+		}
+	},
 	//初始化日期
 	initDate: () => {
 		let solar = Solar.getSolar(new Date());
@@ -151,6 +175,7 @@ let myNewTabWE = {
 	
 	init: () => {
 		document.title = myNewTabWE.config.title;
+		myNewTabWE.initCss();
 		myNewTabWE.initDate();
 		myNewTabWE.initSite();
 		myNewTabWE.initImage();
@@ -171,12 +196,21 @@ let myNewTabWE = {
 					for (let frame of await browser.webNavigation.getAllFrames({tabId: tab.id})) {
 						if (frame.frameId) {
 							//天气页面插入css
-							await browser.tabs.insertCSS(tab.id, {
-								cssOrigin: 'user',
-								file: browser.extension.getURL('css/weather.css'),
-								frameId: frame.frameId,
-								runAt: 'document_start'
-							});
+							if (myNewTabWE.css.weather) {
+								await browser.tabs.insertCSS(tab.id, {
+									code: myNewTabWE.css.weather,
+									cssOrigin: 'user',
+									frameId: frame.frameId,
+									runAt: 'document_start'
+								});
+							} else {
+								await browser.tabs.insertCSS(tab.id, {
+									cssOrigin: 'user',
+									file: browser.extension.getURL('css/weather.css'),
+									frameId: frame.frameId,
+									runAt: 'document_start'
+								});
+							}
 							//自动适应页面大小
 							let size = (await browser.tabs.executeScript(tab.id, {
 								code: '[document.body.scrollHeight, document.body.scrollWidth]',
@@ -271,7 +305,7 @@ let myNewTabWE = {
 			if (myNewTabWE.config.newTabOpen) {
 				a.setAttribute('target', '_blank');
 			}
-			img.src = site.icon ? site.icon : browser.extension.getURL('image/default.svg');
+			img.src = site.icon ? site.icon : '../image/default.svg';
 			
 			a.appendChild(img);
 			a.appendChild(textNode);

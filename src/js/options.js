@@ -87,14 +87,27 @@ let myNewTabWE = {
 			};
 			upload.click();
 		}, false);
-		$id('export').addEventListener('click', () => {
+		$id('export').addEventListener('click', async () => {
+			let storage = {
+				css: {
+					version: 0,
+					index: '',
+					weather: ''
+				}
+			};
+			try {   //获取定制css内容
+				storage = await browser.storage.local.get(storage);
+			} catch(e) {
+				myNewTabWE.notify(e, '获取定制css内容失败');
+			}
 			browser.downloads.download({
 				filename: 'myNewTabWE.json',
 				saveAs: true,
 				url: URL.createObjectURL(new Blob([JSON.stringify({
 					config: myNewTabWE.config,
 					imageData: myNewTabWE.imageData,
-					sites: myNewTabWE.sites
+					sites: myNewTabWE.sites,
+					css: storage.css
 				}, null, '\t')]))
 			});
 		}, false);
