@@ -26,6 +26,7 @@ textarea {
 	background-color: #F9F9F9;
 	overflow-y: hidden;
 	padding: 0;   /*使其宽度100%能居中*/
+	resize: none;
 	width: 100%;
 }
 textarea:focus {   /*输入框聚焦效果*/
