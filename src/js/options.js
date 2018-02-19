@@ -10,7 +10,6 @@ const $id = id => document.getElementById(id);
 
 let myNewTabWE = {
 	config: {},
-	imageData: {},
 	sites: [],
 	
 	notify: (message, title) => {
@@ -32,11 +31,6 @@ let myNewTabWE = {
 					title: '我的主页',   //网页标题
 					useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
 					weatherSrc: 'http://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
-				},
-				imageData: {
-					lastCheckTime: 0,
-					imageName: '',
-					imageUrl: ''
 				},
 				sites: []
 			}).then(storage => {
@@ -86,9 +80,14 @@ let myNewTabWE = {
 				reader.readAsText(upload.files[0]);
 			};
 			upload.click();
-		}, false);
+		});
 		$id('export').addEventListener('click', async () => {
 			let storage = {
+				imageData: {
+					lastCheckTime: 0,
+					imageName: '',
+					imageUrl: ''
+				},
 				css: {
 					version: 0,
 					index: '',
@@ -105,12 +104,12 @@ let myNewTabWE = {
 				saveAs: true,
 				url: URL.createObjectURL(new Blob([JSON.stringify({
 					config: myNewTabWE.config,
-					imageData: myNewTabWE.imageData,
+					imageData: storage.imageData,
 					sites: myNewTabWE.sites,
 					css: storage.css
 				}, null, '\t')]))
 			});
-		}, false);
+		});
 	},
 	//初始化选项
 	initConf: () => {
@@ -143,7 +142,7 @@ let myNewTabWE = {
 				$id('sites').appendChild(node);
 				node.scrollIntoView({behavior: 'smooth', block: 'end'});   //与滚动区的可视区域的底端对齐
 			}
-		}, false);
+		});
 	},
 	//初始化编辑界面
 	initEdit: () => {
@@ -158,7 +157,7 @@ let myNewTabWE = {
 				reader.readAsDataURL(upload.files[0]);
 			};
 			upload.click();
-		}, false);
+		});
 		let count = 0;   //用来判断获取到的图标时的模态框是否还是原来的
 		$id('edit-modal').setAttribute('count', count);
 		$id('edit-geticon').addEventListener('click', () => {
@@ -205,7 +204,7 @@ let myNewTabWE = {
 			} else {
 				myNewTabWE.notify($id('edit-url').value, '不是标准http网址');
 			}
-		}, false);
+		});
 	},
 	
 	init: () => {
@@ -258,7 +257,7 @@ let myNewTabWE = {
 				node.parentNode.insertBefore(node, node.previousElementSibling);
 				node.scrollIntoView({behavior: 'smooth', block: 'start'});
 			}
-		}, false);
+		});
 		node.querySelector('.group-down').addEventListener('click', () => {
 			let index = myNewTabWE.sites.indexOf(group);
 			if (index + 1 < myNewTabWE.sites.length) {   //不是最后一个
@@ -267,7 +266,7 @@ let myNewTabWE = {
 				node.parentNode.insertBefore(node.nextElementSibling, node);
 				node.scrollIntoView({behavior: 'smooth', block: 'start'});
 			}
-		}, false);
+		});
 		node.querySelector('.group-add').addEventListener('click', () => {
 			let site = {
 				title: '',
@@ -281,7 +280,7 @@ let myNewTabWE = {
 				table.appendChild(node);
 				node.scrollIntoView({behavior: 'smooth', block: 'end'});   //与滚动区的可视区域的底端对齐
 			});
-		}, false);
+		});
 		node.querySelector('.group-rename').addEventListener('click', () => {
 			let name = prompt('请输入分组名', group.name);
 			if (name != null) {
@@ -289,12 +288,12 @@ let myNewTabWE = {
 				myNewTabWE.setStorage();
 				node.querySelector('.group-name').textContent = group.name;
 			}
-		}, false);
+		});
 		node.querySelector('.group-delete').addEventListener('click', () => {
 			myNewTabWE.sites.splice(myNewTabWE.sites.indexOf(group), 1);
 			myNewTabWE.setStorage();
 			$id('sites').removeChild(node);
-		}, false);
+		});
 		for (let site of group.list) {
 			table.appendChild(myNewTabWE.buildTr(site, group.list, row.cloneNode(true)));
 		}
@@ -315,7 +314,7 @@ let myNewTabWE = {
 				myNewTabWE.setStorage();
 				node.parentNode.insertBefore(node, node.previousElementSibling);
 			}
-		}, false);
+		});
 		node.querySelector('.row-down').addEventListener('click', () => {
 			let index = list.indexOf(site);
 			if (index + 1 < list.length) {   //不是最后一个
@@ -323,7 +322,7 @@ let myNewTabWE = {
 				myNewTabWE.setStorage();
 				node.parentNode.insertBefore(node.nextElementSibling, node);
 			}
-		}, false);
+		});
 		node.querySelector('.row-edit').addEventListener('click', () => {
 			myNewTabWE.editSite(site).then(() => {
 				title.textContent = title.title = site.title;
@@ -331,12 +330,12 @@ let myNewTabWE = {
 				url.textContent = url.title = site.url;
 				myNewTabWE.setStorage();
 			});
-		}, false);
+		});
 		node.querySelector('.row-delete').addEventListener('click', () => {
 			list.splice(list.indexOf(site), 1);
 			myNewTabWE.setStorage();
 			node.parentNode.removeChild(node);
-		}, false);
+		});
 		return node;
 	},
 	editSite: site => {
