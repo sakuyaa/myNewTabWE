@@ -60,7 +60,7 @@
 						<td>新标签页打开链接</td>
 						<td><input id="newtab-open" type="checkbox" /></td>
 					</tr>
-					<tr>
+					<tr title="每次点击主页的切换按钮，壁纸将在此最大历史天数内循环切换">
 						<td>Bing壁纸最大历史天数</td>
 						<td><select id="bing-max-history">
 							<option value="2">2</option>
@@ -86,6 +86,14 @@
 							<input id="1920" type="radio" name="image-size">1920x1080</input>
 							<input id="1366" type="radio" name="image-size">1366x768</input>
 						</td>
+					</tr>
+					<tr title="由于API限制，只能下载到浏览器设置的下载文件夹中。火狐58以后需要浏览器取消设置询问保存文件的位置，否则会每次下载都会弹出选择窗口（对应browser.download.useDownloadDir设置为true）">
+						<td>自动下载壁纸</td>
+						<td><input id="auto-download" type="checkbox" /></td>
+					</tr>
+					<tr title="相对于浏览器下载文件夹的目录：为空则下载到下载文件夹根目录，否则下载到下载文件夹的指定子目录中">
+						<td>自动下载壁纸文件夹</td>
+						<td><input id="download-dir" /></td>
 					</tr>
 					<tr>
 						<td>使用自定义壁纸</td>

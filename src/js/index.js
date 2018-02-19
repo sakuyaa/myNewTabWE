@@ -33,7 +33,9 @@ let myNewTabWE = {
 		return new Promise((resolve, reject) => {
 			browser.storage.local.get({   //默认值
 				config: {
+					autoDownload: false,   //自动下载壁纸
 					bingMaxHistory: 10,   //最大历史天数，可设置[2, 16]
+					downloadDir: 'bingImg',   //相对于浏览器下载文件夹的目录
 					newTabOpen: true,   //是否新标签页打开导航链接
 					title: '我的主页',   //网页标题
 					useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
@@ -285,6 +287,18 @@ let myNewTabWE = {
 					url: myNewTabWE.imageData.imageUrl
 				});
 			};
+			//自动下载壁纸
+			if (myNewTabWE.config.autoDownload) {
+				let filename = myNewTabWE.imageData.imageName;
+				if (myNewTabWE.config.downloadDir) {
+					filename = myNewTabWE.config.downloadDir + '/' + filename;
+				}
+				browser.downloads.download({
+					conflictAction: 'overwrite',   //覆盖旧文件避免出现重复文件
+					filename: filename,
+					url: myNewTabWE.imageData.imageUrl
+				});
+			}
 		}, aReject => {
 			myNewTabWE.notify(aReject, '获取图片失败');
 		});
