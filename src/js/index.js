@@ -37,6 +37,8 @@ let myNewTabWE = {
 					newTabOpen: true,   //是否新标签页打开导航链接
 					title: '我的主页',   //网页标题
 					useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
+					userImage: false,   //使用自定义壁纸
+					userImageSrc: '',   //自定义壁纸的URL
 					weatherSrc: 'http://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
 				},
 				imageData: {
@@ -134,7 +136,7 @@ let myNewTabWE = {
 			if (offsetHeight < clientHeight) {
 				$id('main').style.marginTop = (clientHeight - offsetHeight) / 4 + 'px';
 			}
-		}, false);
+		});
 		
 		//神秘的代码
 		document.addEventListener('keydown', e => {
@@ -152,7 +154,10 @@ let myNewTabWE = {
 	},
 	//初始化背景图片
 	initImage: () => {
-		if (myNewTabWE.imageData.imageUrl && myNewTabWE.imageData.imageUrl.length > 0) {
+		if (myNewTabWE.config.userImage) {   //使用自定义壁纸
+			document.body.style.backgroundImage = 'url("' + myNewTabWE.config.userImageSrc + '")';
+			$id('download').setAttribute('hidden', 'hidden');
+		} else if (myNewTabWE.imageData.imageUrl) {
 			document.body.style.backgroundImage = 'url("' + myNewTabWE.imageData.imageUrl + '")';
 			//设置图片下载链接，不使用addEventListener避免重复设置
 			$id('download').onclick = () => {
@@ -188,7 +193,7 @@ let myNewTabWE = {
 				myNewTabWE.bingIndex++;
 			}
 			myNewTabWE.getBingImage();
-		}, false);
+		});
 		
 		$id('weather').onload = async () => {
 			try {
@@ -226,7 +231,7 @@ let myNewTabWE = {
 				console.log('天气栏css加载失败：' + e);
 			}
 		};
-		if (myNewTabWE.config.weatherSrc.length) {
+		if (myNewTabWE.config.weatherSrc) {
 			$id('weather').src = myNewTabWE.config.weatherSrc;
 		}
 	},
@@ -235,7 +240,7 @@ let myNewTabWE = {
 		new Promise((resolve, reject) => {
 			let xhr = new XMLHttpRequest();
 			xhr.responseType = 'json';
-			xhr.open('GET', 'https://cn.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=zh-CN&idx=' + myNewTabWE.bingIndex % myNewTabWE.config.bingMaxHistory, true);
+			xhr.open('GET', 'https://cn.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=zh-CN&idx=' + myNewTabWE.bingIndex % myNewTabWE.config.bingMaxHistory);
 			xhr.setRequestHeader('referrer', 'https://cn.bing.com/');
 			xhr.onload = () => {
 				if (xhr.status == 200) {

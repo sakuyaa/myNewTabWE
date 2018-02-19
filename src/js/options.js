@@ -7,6 +7,7 @@
 
 //简化函数
 const $id = id => document.getElementById(id);
+let upload = $id('upload');
 
 let myNewTabWE = {
 	config: {},
@@ -30,6 +31,8 @@ let myNewTabWE = {
 					newTabOpen: true,   //是否新标签页打开导航链接
 					title: '我的主页',   //网页标题
 					useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
+					userImage: false,   //使用自定义壁纸
+					userImageSrc: '',   //自定义壁纸的URL
 					weatherSrc: 'http://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
 				},
 				sites: []
@@ -58,7 +61,6 @@ let myNewTabWE = {
 	
 	//初始化导入导出功能
 	initImportExport: () => {
-		let upload = $id('upload');
 		$id('import').addEventListener('click', () => {
 			upload.setAttribute('accept', 'application/json');
 			upload.onchange = () => {
@@ -120,6 +122,8 @@ let myNewTabWE = {
 		} else {
 			$id('1366').checked = true;
 		}
+		$id('user-image').checked = myNewTabWE.config.userImage;
+		$id('user-image-src').value = myNewTabWE.config.userImageSrc;
 		$id('title').value = myNewTabWE.config.title;
 		$id('weather-src').value = myNewTabWE.config.weatherSrc;
 		myNewTabWE.confListener();
@@ -146,7 +150,6 @@ let myNewTabWE = {
 	},
 	//初始化编辑界面
 	initEdit: () => {
-		let upload = $id('upload');
 		$id('edit-upload').addEventListener('click', () => {
 			upload.setAttribute('accept', 'image/*');
 			upload.onchange = () => {
@@ -230,6 +233,26 @@ let myNewTabWE = {
 		});
 		$id('1366').addEventListener('click', () => {
 			myNewTabWE.config.useBigImage = false;
+			myNewTabWE.setStorage(true);
+		});
+		$id('user-image').addEventListener('click', e => {
+			myNewTabWE.config.userImage = e.target.checked;
+			myNewTabWE.setStorage(true);
+		});
+		$id('image-upload').addEventListener('click', e => {
+			upload.setAttribute('accept', 'image/*');
+			upload.onchange = () => {
+				let reader = new FileReader();
+				reader.onload = () => {
+					$id('user-image-src').value = myNewTabWE.config.userImageSrc = reader.result;
+					myNewTabWE.setStorage(true);
+				};
+				reader.readAsDataURL(upload.files[0]);
+			};
+			upload.click();
+		});
+		$id('user-image-src').addEventListener('change', e => {
+			myNewTabWE.config.userImageSrc = e.target.value;
 			myNewTabWE.setStorage(true);
 		});
 		$id('title').addEventListener('change', e => {

@@ -103,7 +103,7 @@ input:focus {   /*输入框聚焦效果*/
 	border-bottom-left-radius: .5em;
 	border-bottom-right-radius: .5em;
 }
-#edit-modal input:not([size]), #title, #weather-src {   /*除图标列之外输入框长度*/
+#edit-modal input:not([size]), #user-image-src, #title, #weather-src {   /*除图标列之外输入框长度*/
 	width: 99%;
 }
 #confirm {   /*确认取消按钮位置*/
@@ -126,4 +126,8 @@ input:focus {   /*输入框聚焦效果*/
 }
 #config td:first-child {   /*选项文字宽度*/
 	width: 12em;
+}
+#image-upload {
+	float: right;   /*按钮靠右*/
+	padding: 0 .3em;
 }
