@@ -7,6 +7,29 @@
 
 //简化函数
 const $id = id => document.getElementById(id);
+const DEFAULT_CONFIG = {
+	config: {
+		autoDownload: false,   //自动下载壁纸
+		bingMaxHistory: 10,   //最大历史天数，可设置[2, 16]
+		downloadDir: 'bingImg',   //相对于浏览器下载文件夹的目录
+		newTabOpen: true,   //是否新标签页打开导航链接
+		title: '我的主页',   //网页标题
+		useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
+		userImage: false,   //使用自定义壁纸
+		userImageSrc: '',   //自定义壁纸的URL
+		weatherSrc: 'http://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
+	},
+	imageData: {
+		lastCheckTime: 0,
+		imageName: '',
+		imageUrl: ''
+	},
+	sites: [],
+	css: {
+		index: '',
+		weather: ''
+	}
+};
 
 let myNewTabWE = {
 	bingIndex: 0,   //Bing图片历史天数
@@ -31,29 +54,7 @@ let myNewTabWE = {
 	//获取参数
 	getStorage: () => {
 		return new Promise((resolve, reject) => {
-			browser.storage.local.get({   //默认值
-				config: {
-					autoDownload: false,   //自动下载壁纸
-					bingMaxHistory: 10,   //最大历史天数，可设置[2, 16]
-					downloadDir: 'bingImg',   //相对于浏览器下载文件夹的目录
-					newTabOpen: true,   //是否新标签页打开导航链接
-					title: '我的主页',   //网页标题
-					useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
-					userImage: false,   //使用自定义壁纸
-					userImageSrc: '',   //自定义壁纸的URL
-					weatherSrc: 'http://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
-				},
-				imageData: {
-					lastCheckTime: 0,
-					imageName: '',
-					imageUrl: ''
-				},
-				sites: [],
-				css: {
-					index: '',
-					weather: ''
-				}
-			}).then(storage => {
+			browser.storage.local.get(DEFAULT_CONFIG).then(storage => {
 				myNewTabWE.config = storage.config;
 				myNewTabWE.imageData = storage.imageData;
 				myNewTabWE.sites = storage.sites;

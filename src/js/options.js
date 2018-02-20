@@ -7,6 +7,20 @@
 
 //简化函数
 const $id = id => document.getElementById(id);
+const DEFAULT_CONFIG = {
+	config: {
+		autoDownload: false,   //自动下载壁纸
+		bingMaxHistory: 10,   //最大历史天数，可设置[2, 16]
+		downloadDir: 'bingImg',   //相对于浏览器下载文件夹的目录
+		newTabOpen: true,   //是否新标签页打开导航链接
+		title: '我的主页',   //网页标题
+		useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
+		userImage: false,   //使用自定义壁纸
+		userImageSrc: '',   //自定义壁纸的URL
+		weatherSrc: 'http://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
+	},
+	sites: []
+};
 let upload = $id('upload');
 
 let myNewTabWE = {
@@ -25,20 +39,7 @@ let myNewTabWE = {
 	//获取参数
 	getStorage: () => {
 		return new Promise((resolve, reject) => {
-			browser.storage.local.get({   //默认值
-				config: {
-					autoDownload: false,   //自动下载壁纸
-					bingMaxHistory: 10,   //最大历史天数，可设置[2, 16]
-					downloadDir: 'bingImg',   //相对于浏览器下载文件夹的目录
-					newTabOpen: true,   //是否新标签页打开导航链接
-					title: '我的主页',   //网页标题
-					useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
-					userImage: false,   //使用自定义壁纸
-					userImageSrc: '',   //自定义壁纸的URL
-					weatherSrc: 'http://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
-				},
-				sites: []
-			}).then(storage => {
+			browser.storage.local.get(DEFAULT_CONFIG).then(storage => {
 				myNewTabWE.config = storage.config;
 				myNewTabWE.imageData = storage.imageData;
 				myNewTabWE.sites = storage.sites;
@@ -130,7 +131,6 @@ let myNewTabWE = {
 		$id('user-image-src').value = myNewTabWE.config.userImageSrc;
 		$id('title').value = myNewTabWE.config.title;
 		$id('weather-src').value = myNewTabWE.config.weatherSrc;
-		myNewTabWE.confListener();
 	},
 	//初始化导航网址
 	initSites: ()=> {
@@ -217,12 +217,20 @@ let myNewTabWE = {
 	init: () => {
 		myNewTabWE.initImportExport();
 		myNewTabWE.initConf();
+		myNewTabWE.confListener();
 		myNewTabWE.initSites();
 		myNewTabWE.initEdit();
 	},
 	
-	//选项变更时保存
+	//初始化选项事件
 	confListener: () => {
+		$id('config-default').addEventListener('click', e => {
+			if (confirm('是否恢复默认选项？')) {
+				myNewTabWE.config = DEFAULT_CONFIG.config;
+				myNewTabWE.setStorage(true);
+				myNewTabWE.initConf();   //重新初始化选项
+			}
+		});
 		$id('newtab-open').addEventListener('click', e => {
 			myNewTabWE.config.newTabOpen = e.target.checked;
 			myNewTabWE.setStorage(true);
