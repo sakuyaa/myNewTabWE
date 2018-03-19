@@ -271,10 +271,10 @@ let myNewTabWE = {
 			//保存图片链接和获取时间
 			myNewTabWE.imageData.lastCheckTime = Date.now();
 			myNewTabWE.imageData.imageName = data.enddate + '-' +
-				data.copyright.replace(/(\s|\(.*?\))/g, '')
+				data.copyright.replace(/\(.*?\)/g, '').trim()
 				.replace(/(\\|\/|\*|\|)/g, '')   //Win文件名不能包含下列字符
-				.replace(/(:)/g, '：')
-				.replace(/(\?)/g, '？')
+				.replace(/:/g, '：')
+				.replace(/\?/g, '？')
 				.replace(/("|<|>)/g, '\'') + '.jpg';
 			browser.storage.local.set({imageData: myNewTabWE.imageData}).then(null, e => {
 				myNewTabWE.notify(e, '设置readLater配置失败');
