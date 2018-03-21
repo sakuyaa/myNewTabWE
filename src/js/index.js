@@ -251,6 +251,7 @@ let myNewTabWE = {
 			});
 		} catch (e) {
 			myNewTabWE.notify(e, '获取图片失败');
+			return;
 		}
 		
 		//处理图片地址
