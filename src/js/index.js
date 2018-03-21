@@ -19,11 +19,6 @@ const DEFAULT_CONFIG = {
 		userImageSrc: '',   //自定义壁纸的URL
 		weatherSrc: 'http://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
 	},
-	imageData: {
-		lastCheckTime: 0,
-		imageName: '',
-		imageUrl: ''
-	},
 	sites: [],
 	css: {
 		index: '',
@@ -34,7 +29,6 @@ const DEFAULT_CONFIG = {
 let myNewTabWE = {
 	bingIndex: 0,   //Bing图片历史天数
 	config: {},
-	imageData: {},
 	sites: [],
 	css: {
 		index: '',
@@ -56,7 +50,6 @@ let myNewTabWE = {
 		return new Promise((resolve, reject) => {
 			browser.storage.local.get(DEFAULT_CONFIG).then(storage => {
 				myNewTabWE.config = storage.config;
-				myNewTabWE.imageData = storage.imageData;
 				myNewTabWE.sites = storage.sites;
 				myNewTabWE.css = storage.css;
 				resolve();
@@ -160,24 +153,21 @@ let myNewTabWE = {
 		if (myNewTabWE.config.userImage) {   //使用自定义壁纸
 			document.body.style.backgroundImage = 'url("' + myNewTabWE.config.userImageSrc + '")';
 			$id('download').setAttribute('hidden', 'hidden');
-		} else if (myNewTabWE.imageData.imageUrl) {
-			document.body.style.backgroundImage = 'url("' + myNewTabWE.imageData.imageUrl + '")';
-			//设置图片下载链接，不使用addEventListener避免重复设置
-			$id('download').onclick = () => {
-				browser.downloads.download({
-					filename: myNewTabWE.imageData.imageName,
-					saveAs: true,
-					url: myNewTabWE.imageData.imageUrl
-				});
-			};
-			
-			let today = new Date();
-			today.setHours(0, 0, 0);   //毫秒就不管了
-			if (new Date(myNewTabWE.imageData.lastCheckTime) < today) {
-				myNewTabWE.getBingImage();   //过0点重新获取
-			}
 		} else {
-			myNewTabWE.getBingImage();
+			let imageSrc = localStorage.getItem('imageSrc');
+			if (imageSrc) {
+				document.body.style.backgroundImage = 'url("' + imageSrc + '")';
+				download.setAttribute('download', localStorage.getItem('imageName'));
+				download.setAttribute('href', URL.createObjectURL(myNewTabWE.dataURItoBlob(imageSrc)));
+				
+				let today = new Date();
+				today.setHours(0, 0, 0);   //毫秒就不管了
+				if (new Date(localStorage.getItem('lastCheckTime')) < today) {
+					myNewTabWE.getBingImage();   //过0点重新获取
+				}
+			} else {
+				myNewTabWE.getBingImage();
+			}
 		}
 	},
 	
@@ -190,7 +180,7 @@ let myNewTabWE = {
 		$id('change').addEventListener('click', () => {
 			let today = new Date();
 			today.setHours(0, 0, 0);   //毫秒就不管了
-			if (myNewTabWE.imageData.lastCheckTime && new Date(myNewTabWE.imageData.lastCheckTime) < today) {
+			if (localStorage.getItem('lastCheckTime') && new Date(localStorage.getItem('lastCheckTime')) < today) {
 				myNewTabWE.bingIndex = 0;   //过0点重新获取
 			} else {
 				myNewTabWE.bingIndex++;
@@ -239,70 +229,76 @@ let myNewTabWE = {
 		}
 	},
 	
-	getBingImage: () => {
-		new Promise((resolve, reject) => {
-			let xhr = new XMLHttpRequest();
-			xhr.responseType = 'json';
-			xhr.open('GET', 'https://cn.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=zh-CN&idx=' + myNewTabWE.bingIndex % myNewTabWE.config.bingMaxHistory);
-			xhr.setRequestHeader('referrer', 'https://cn.bing.com/');
-			xhr.onload = () => {
-				if (xhr.status == 200) {
-					resolve(xhr.response.images[0]);
-				} else {
-					reject(new Error(xhr.statusText));
-				}
-			};
-			xhr.onerror = () => {
-				reject(new Error('网络错误，无法获取图片地址'));
-			};
-			xhr.send(null);
-		}).then(data => {
-			//处理图片地址
-			if (!data.url.startsWith('http')) {
-				data.url = 'https://www.bing.com' + data.url;
-			}
-			if (myNewTabWE.config.useBigImage) {
-				myNewTabWE.imageData.imageUrl = data.url.replace('1366x768', '1920x1080');
-			} else {
-				myNewTabWE.imageData.imageUrl = data.url.replace('1920x1080', '1366x768');
-			}
-			document.body.style.backgroundImage = 'url("' + myNewTabWE.imageData.imageUrl + '")';
-			
-			//保存图片链接和获取时间
-			myNewTabWE.imageData.lastCheckTime = Date.now();
-			myNewTabWE.imageData.imageName = data.enddate + '-' +
-				data.copyright.replace(/\(.*?\)/g, '').trim()
-				.replace(/(\\|\/|\*|\|)/g, '')   //Win文件名不能包含下列字符
-				.replace(/:/g, '：')
-				.replace(/\?/g, '？')
-				.replace(/("|<|>)/g, '\'') + '.jpg';
-			browser.storage.local.set({imageData: myNewTabWE.imageData}).then(null, e => {
-				myNewTabWE.notify(e, '设置readLater配置失败');
+	getBingImage: async () => {
+		let data;
+		try {
+			data = await new Promise((resolve, reject) => {
+				let xhr = new XMLHttpRequest();
+				xhr.responseType = 'json';
+				xhr.open('GET', 'https://cn.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=zh-CN&idx=' + myNewTabWE.bingIndex % myNewTabWE.config.bingMaxHistory);
+				xhr.setRequestHeader('referrer', 'https://cn.bing.com/');
+				xhr.onload = () => {
+					if (xhr.status == 200) {
+						resolve(xhr.response.images[0]);
+					} else {
+						reject(new Error(xhr.statusText));
+					}
+				};
+				xhr.onerror = () => {
+					reject(new Error('网络错误，无法获取图片地址'));
+				};
+				xhr.send(null);
 			});
-			
-			//设置图片下载链接，不使用addEventListener避免重复设置
-			$id('download').onclick = () => {
-				browser.downloads.download({
-					filename: myNewTabWE.imageData.imageName,
-					saveAs: true,
-					url: myNewTabWE.imageData.imageUrl
-				});
-			};
-			//自动下载壁纸
-			if (myNewTabWE.config.autoDownload) {
-				let filename = myNewTabWE.imageData.imageName;
-				if (myNewTabWE.config.downloadDir) {
-					filename = myNewTabWE.config.downloadDir + '/' + filename;
-				}
-				browser.downloads.download({
-					conflictAction: 'overwrite',   //覆盖旧文件避免出现重复文件
-					filename: filename,
-					url: myNewTabWE.imageData.imageUrl
-				});
+		} catch (e) {
+			myNewTabWE.notify(e, '获取图片失败');
+		}
+		
+		//处理图片地址
+		if (!data.url.startsWith('http')) {
+			data.url = 'https://www.bing.com' + data.url;
+		}
+		let xhr = new XMLHttpRequest();
+		xhr.responseType = 'blob';
+		xhr.open('GET', myNewTabWE.config.useBigImage ? data.url.replace('1366x768', '1920x1080') :
+			data.url.replace('1920x1080', '1366x768'));
+		xhr.onload = () => {
+			if (xhr.status == 200) {
+				let reader = new FileReader();
+				reader.onload = () => {
+					document.body.style.backgroundImage = 'url("' + reader.result + '")';
+					
+					//保存图片和获取时间
+					localStorage.setItem('lastCheckTime', Date.now());
+					let imageName = data.enddate + '-' +
+						data.copyright.replace(/\(.*?\)/g, '').trim()
+						.replace(/(\\|\/|\*|\|)/g, '')   //Win文件名不能包含下列字符
+						.replace(/:/g, '：')
+						.replace(/\?/g, '？')
+						.replace(/("|<|>)/g, '\'') + '.jpg';
+					localStorage.setItem('imageName', imageName);
+					localStorage.setItem('imageSrc', reader.result);
+					
+					//设置图片下载链接
+					download.setAttribute('download', imageName);
+					download.setAttribute('href', URL.createObjectURL(xhr.response));
+					//自动下载壁纸
+					if (myNewTabWE.config.autoDownload) {
+						if (myNewTabWE.config.downloadDir) {
+							imageName = myNewTabWE.config.downloadDir + '/' + imageName;
+						}
+						browser.downloads.download({
+							conflictAction: 'overwrite',   //覆盖旧文件避免出现重复文件
+							filename: imageName,
+							url: URL.createObjectURL(xhr.response)
+						});
+					}
+				};
+				reader.readAsDataURL(xhr.response);
+			} else {
+				myNewTabWE.notify(new Error(xhr.statusText), '下载图片失败');
 			}
-		}, aReject => {
-			myNewTabWE.notify(aReject, '获取图片失败');
-		});
+		};
+		xhr.send(null);
 	},
 	
 	buildTr: list => {
@@ -333,6 +329,16 @@ let myNewTabWE = {
 			tr.appendChild(td);
 		}
 		return tr;
+	},
+	
+	dataURItoBlob: dataURI => {
+		let byteString = atob(dataURI.substring(dataURI.indexOf(',') + 1));
+		let arrayBuffer = new ArrayBuffer(byteString.length);
+		let array = new Uint8Array(arrayBuffer);
+		for (let i = 0; i < byteString.length; i++) {
+			array[i] = byteString.charCodeAt(i);
+		}
+		return new Blob([arrayBuffer], {type: dataURI.substring(dataURI.indexOf(':') + 1, dataURI.indexOf(';'))});
 	}
 };
 

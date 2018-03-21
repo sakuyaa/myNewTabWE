@@ -41,7 +41,6 @@ let myNewTabWE = {
 		return new Promise((resolve, reject) => {
 			browser.storage.local.get(DEFAULT_CONFIG).then(storage => {
 				myNewTabWE.config = storage.config;
-				myNewTabWE.imageData = storage.imageData;
 				myNewTabWE.sites = storage.sites;
 				resolve();
 			}, e => {
@@ -88,11 +87,6 @@ let myNewTabWE = {
 		});
 		$id('export').addEventListener('click', async () => {
 			let storage = {
-				imageData: {
-					lastCheckTime: 0,
-					imageName: '',
-					imageUrl: ''
-				},
 				css: {
 					version: 0,
 					index: '',
@@ -109,7 +103,6 @@ let myNewTabWE = {
 				saveAs: true,
 				url: URL.createObjectURL(new Blob([JSON.stringify({
 					config: myNewTabWE.config,
-					imageData: storage.imageData,
 					sites: myNewTabWE.sites,
 					css: storage.css
 				}, null, '\t')]))
