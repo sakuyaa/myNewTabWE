@@ -261,6 +261,7 @@ let myNewTabWE = {
 		xhr.responseType = 'blob';
 		xhr.open('GET', myNewTabWE.config.useBigImage ? data.url.replace('1366x768', '1920x1080') :
 			data.url.replace('1920x1080', '1366x768'));
+		xhr.setRequestHeader('referrer', 'https://cn.bing.com/');
 		xhr.onload = () => {
 			if (xhr.status == 200) {
 				let reader = new FileReader();
