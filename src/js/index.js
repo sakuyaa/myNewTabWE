@@ -231,77 +231,51 @@ let myNewTabWE = {
 	},
 	
 	getBingImage: async () => {
-		let data;
+		let data, image;
 		try {
-			data = await new Promise((resolve, reject) => {
-				let xhr = new XMLHttpRequest();
-				xhr.responseType = 'json';
-				xhr.open('GET', 'https://cn.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=zh-CN&idx=' + myNewTabWE.bingIndex % myNewTabWE.config.bingMaxHistory);
-				xhr.setRequestHeader('referrer', 'https://cn.bing.com/');
-				xhr.onload = () => {
-					if (xhr.status == 200) {
-						resolve(xhr.response.images[0]);
-					} else {
-						reject(new Error(xhr.statusText));
-					}
-				};
-				xhr.onerror = () => {
-					reject(new Error('网络错误，无法获取图片地址'));
-				};
-				xhr.send(null);
-			});
+			data = (await myNewTabWE.httpRequest('https://cn.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=zh-CN&idx=' + myNewTabWE.bingIndex % myNewTabWE.config.bingMaxHistory,
+				'json', 'https://cn.bing.com/')).images[0];
+			if (!data.url.startsWith('http')) {   //处理图片地址
+				data.url = 'https://www.bing.com' + data.url;
+			}
+			image = await myNewTabWE.httpRequest(myNewTabWE.config.useBigImage ?
+				data.url.replace('1366x768', '1920x1080') : data.url.replace('1920x1080', '1366x768'),
+				'blob', 'https://cn.bing.com/');
 		} catch (e) {
 			myNewTabWE.notify(e, '获取图片失败');
 			return;
 		}
-		
-		//处理图片地址
-		if (!data.url.startsWith('http')) {
-			data.url = 'https://www.bing.com' + data.url;
-		}
-		let xhr = new XMLHttpRequest();
-		xhr.responseType = 'blob';
-		xhr.open('GET', myNewTabWE.config.useBigImage ? data.url.replace('1366x768', '1920x1080') :
-			data.url.replace('1920x1080', '1366x768'));
-		xhr.setRequestHeader('referrer', 'https://cn.bing.com/');
-		xhr.onload = () => {
-			if (xhr.status == 200) {
-				let reader = new FileReader();
-				reader.onload = () => {
-					document.body.style.backgroundImage = 'url("' + reader.result + '")';
-					
-					//保存图片和获取时间
-					localStorage.setItem('lastCheckTime', Date.now());
-					let imageName = data.enddate + '-' +
-						data.copyright.replace(/\(.*?\)/g, '').trim()
-						.replace(/(\\|\/|\*|\|)/g, '')   //Win文件名不能包含下列字符
-						.replace(/:/g, '：')
-						.replace(/\?/g, '？')
-						.replace(/("|<|>)/g, '\'') + '.jpg';
-					localStorage.setItem('imageName', imageName);
-					localStorage.setItem('imageSrc', reader.result);
-					
-					//设置图片下载链接
-					download.setAttribute('download', imageName);
-					download.setAttribute('href', URL.createObjectURL(xhr.response));
-					//自动下载壁纸
-					if (myNewTabWE.config.autoDownload) {
-						if (myNewTabWE.config.downloadDir) {
-							imageName = myNewTabWE.config.downloadDir + '/' + imageName;
-						}
-						browser.downloads.download({
-							conflictAction: 'overwrite',   //覆盖旧文件避免出现重复文件
-							filename: imageName,
-							url: URL.createObjectURL(xhr.response)
-						});
-					}
-				};
-				reader.readAsDataURL(xhr.response);
-			} else {
-				myNewTabWE.notify(new Error(xhr.statusText), '下载图片失败');
+		let reader = new FileReader();
+		reader.onload = () => {
+			document.body.style.backgroundImage = 'url("' + reader.result + '")';
+			
+			//保存图片和获取时间
+			localStorage.setItem('lastCheckTime', Date.now());
+			let imageName = data.enddate + '-' +
+				data.copyright.replace(/\(.*?\)/g, '').trim()
+				.replace(/(\\|\/|\*|\|)/g, '')   //Win文件名不能包含下列字符
+				.replace(/:/g, '：')
+				.replace(/\?/g, '？')
+				.replace(/("|<|>)/g, '\'') + '.jpg';
+			localStorage.setItem('imageName', imageName);
+			localStorage.setItem('imageSrc', reader.result);
+			
+			//设置图片下载链接
+			download.setAttribute('download', imageName);
+			download.setAttribute('href', URL.createObjectURL(image));
+			//自动下载壁纸
+			if (myNewTabWE.config.autoDownload) {
+				if (myNewTabWE.config.downloadDir) {
+					imageName = myNewTabWE.config.downloadDir + '/' + imageName;
+				}
+				browser.downloads.download({
+					conflictAction: 'overwrite',   //覆盖旧文件避免出现重复文件
+					filename: imageName,
+					url: URL.createObjectURL(image)
+				});
 			}
 		};
-		xhr.send(null);
+		reader.readAsDataURL(image);
 	},
 	
 	buildTr: list => {
@@ -342,6 +316,30 @@ let myNewTabWE = {
 			array[i] = byteString.charCodeAt(i);
 		}
 		return new Blob([arrayBuffer], {type: dataURI.substring(dataURI.indexOf(':') + 1, dataURI.indexOf(';'))});
+	},
+	
+	httpRequest: (url, type, referrer) => {
+		return new Promise((resolve, reject) => {
+			let xhr = new XMLHttpRequest();
+			if (type) {
+				xhr.responseType = type;
+			}
+			xhr.open('GET', url);
+			if (referrer) {
+				xhr.setRequestHeader('referrer', referrer);
+			}
+			xhr.onload = () => {
+				if (xhr.status == 200) {
+					resolve(xhr.response);
+				} else {
+					reject(new Error(xhr.statusText));
+				}
+			};
+			xhr.onerror = () => {
+				reject(new Error('网络错误'));
+			};
+			xhr.send(null);
+		});
 	}
 };
 
