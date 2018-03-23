@@ -162,7 +162,7 @@ let myNewTabWE = {
 				
 				let today = new Date();
 				today.setHours(0, 0, 0);   //毫秒就不管了
-				if (new Date(localStorage.getItem('lastCheckTime')) < today) {
+				if (new Date(parseInt(localStorage.getItem('lastCheckTime'))) < today) {
 					myNewTabWE.getBingImage();   //过0点重新获取
 				}
 			} else {
@@ -180,7 +180,8 @@ let myNewTabWE = {
 		$id('change').addEventListener('click', () => {
 			let today = new Date();
 			today.setHours(0, 0, 0);   //毫秒就不管了
-			if (localStorage.getItem('lastCheckTime') && new Date(localStorage.getItem('lastCheckTime')) < today) {
+			if (localStorage.getItem('lastCheckTime') &&
+				new Date(parseInt(localStorage.getItem('lastCheckTime'))) < today) {
 				myNewTabWE.bingIndex = 0;   //过0点重新获取
 			} else {
 				myNewTabWE.bingIndex++;
