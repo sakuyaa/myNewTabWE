@@ -68,14 +68,23 @@ let myNewTabWE = {
 			upload.onchange = () => {
 				let reader = new FileReader();
 				reader.onload = () => {
-					let storage;
+					let json, storage = {};
 					try {
-						storage = JSON.parse(reader.result);
+						json = JSON.parse(reader.result);
 					} catch(e) {
 						myNewTabWE.notify(e, '导入myNewTabWE配置失败');
 						return;
 					}
-					browser.storage.local.set(storage).then(() => {
+					if (json.config) {
+						storage.config = json.config;
+					}
+					if (json.sites) {
+						storage.sites = json.sites;
+					}
+					if (json.css) {
+						storage.css = json.css;
+					}
+					browser.storage.local.clear().then(() => browser.storage.local.set(storage)).then(() => {
 						location.reload();   //刷新网页
 					}, e => {
 						myNewTabWE.notify(e, '设置myNewTabWE配置失败');
