@@ -78,33 +78,14 @@ let myNewTabWE = {
 	},
 	//初始化日期
 	initDate: () => {
-		let solar = Solar.getSolar(new Date());
-		let node = $id('solar');
-		let span = document.createElement('span');
-		span.textContent = solar.date;
-		node.appendChild(span);
-		span = document.createElement('span');
-		span.name = 'festival';
-		span.textContent = ' ' + solar.festival;
-		node.appendChild(span);
-		span = document.createElement('span');
-		span.name = 'holiday';
-		span.textContent = ' ' + solar.holiday;
-		node.appendChild(span);
-		
-		let lunar = Lunar.getLunar(new Date());
-		node = $id('lunar');
-		span = document.createElement('span');
-		span.textContent = lunar.date;
-		node.appendChild(span);
-		span = document.createElement('span');
-		span.name = 'festival';
-		span.textContent = ' ' + lunar.festival;
-		node.appendChild(span);
-		span = document.createElement('span');
-		span.name = 'holiday';
-		span.textContent = ' ' + lunar.holiday;
-		node.appendChild(span);
+		let date = Solar.getSolar(new Date());
+		$id('solar-date').textContent = date.date;
+		$id('solar-festival').textContent = date.festival;
+		$id('solar-holiday').textContent = date.holiday;
+		date = Lunar.getLunar(new Date());
+		$id('lunar-date').textContent = date.date;
+		$id('lunar-festival').textContent = date.festival;
+		$id('lunar-holiday').textContent = date.holiday;
 	},
 	//初始化导航网址
 	initSite: () => {
