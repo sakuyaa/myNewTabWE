@@ -9,6 +9,7 @@
 const $id = id => document.getElementById(id);
 const DEFAULT_CONFIG = {
 	config: {
+		autoChange: true,   //自动切换壁纸
 		autoDownload: false,   //自动下载壁纸
 		bingMaxHistory: 10,   //最大历史天数，可设置[2, 16]
 		downloadDir: 'bingImg',   //相对于浏览器下载文件夹的目录
@@ -127,6 +128,7 @@ let myNewTabWE = {
 		} else {
 			$id('1366').checked = true;
 		}
+		$id('auto-change').checked = myNewTabWE.config.autoChange;
 		$id('auto-download').checked = myNewTabWE.config.autoDownload;
 		$id('download-dir').value = myNewTabWE.config.downloadDir;
 		$id('user-image').checked = myNewTabWE.config.userImage;
@@ -247,6 +249,10 @@ let myNewTabWE = {
 		});
 		$id('1366').addEventListener('click', () => {
 			myNewTabWE.config.useBigImage = false;
+			myNewTabWE.setStorage(true);
+		});
+		$id('auto-change').addEventListener('click', e => {
+			myNewTabWE.config.autoChange = e.target.checked;
 			myNewTabWE.setStorage(true);
 		});
 		$id('auto-download').addEventListener('click', e => {

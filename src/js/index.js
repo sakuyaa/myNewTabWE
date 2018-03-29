@@ -9,6 +9,7 @@
 const $id = id => document.getElementById(id);
 const DEFAULT_CONFIG = {
 	config: {
+		autoChange: true,   //自动切换壁纸
 		autoDownload: false,   //自动下载壁纸
 		bingMaxHistory: 10,   //最大历史天数，可设置[2, 16]
 		downloadDir: 'bingImg',   //相对于浏览器下载文件夹的目录
@@ -159,10 +160,7 @@ let myNewTabWE = {
 				document.body.style.backgroundImage = 'url("' + imageSrc + '")';
 				download.setAttribute('download', localStorage.getItem('imageName'));
 				download.setAttribute('href', URL.createObjectURL(myNewTabWE.dataURItoBlob(imageSrc)));
-				
-				let today = new Date();
-				today.setHours(0, 0, 0);   //毫秒就不管了
-				if (new Date(parseInt(localStorage.getItem('lastCheckTime'))) < today) {
+				if (myNewTabWE.isNewDate()) {
 					myNewTabWE.getBingImage();   //过0点重新获取
 				}
 			} else {
@@ -177,11 +175,18 @@ let myNewTabWE = {
 		myNewTabWE.initDate();
 		myNewTabWE.initSite();
 		myNewTabWE.initImage();
+		
+		if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange) {
+			setInterval(() => {
+				if (myNewTabWE.isNewDate()) {
+					myNewTabWE.bingIndex = 0;
+					myNewTabWE.getBingImage();
+				}
+			}, 3600000);
+		}
+		
 		$id('change').addEventListener('click', () => {
-			let today = new Date();
-			today.setHours(0, 0, 0);   //毫秒就不管了
-			if (localStorage.getItem('lastCheckTime') &&
-				new Date(parseInt(localStorage.getItem('lastCheckTime'))) < today) {
+			if (myNewTabWE.isNewDate()) {
 				myNewTabWE.bingIndex = 0;   //过0点重新获取
 			} else {
 				myNewTabWE.bingIndex++;
@@ -316,6 +321,15 @@ let myNewTabWE = {
 			array[i] = byteString.charCodeAt(i);
 		}
 		return new Blob([arrayBuffer], {type: dataURI.substring(dataURI.indexOf(':') + 1, dataURI.indexOf(';'))});
+	},
+	
+	isNewDate: () => {
+		let today = new Date();
+		today.setHours(0, 0, 0);   //毫秒就不管了
+		if (new Date(parseInt(localStorage.getItem('lastCheckTime'))) < today) {
+			return true;
+		}
+		return false;
 	},
 	
 	httpRequest: (url, type, referrer) => {
