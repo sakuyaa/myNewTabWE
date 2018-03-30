@@ -53,11 +53,11 @@ let myNewTabWE = {
 	setStorage: isConfig => {
 		if (isConfig) {   //保存配置
 			browser.storage.local.set({config: myNewTabWE.config}).then(null, e => {
-				myNewTabWE.notify(e, '设置readLater配置失败');
+				myNewTabWE.notify(e, '设置myNewTabWE配置失败');
 			});
 		} else {   //保存网址列表
 			browser.storage.local.set({sites: myNewTabWE.sites}).then(null, e => {
-				myNewTabWE.notify(e, '设置readLater配置失败');
+				myNewTabWE.notify(e, '设置myNewTabWE配置失败');
 			});
 		}
 	},
