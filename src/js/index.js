@@ -157,6 +157,10 @@ let myNewTabWE = {
 		myNewTabWE.initSite();
 		myNewTabWE.initImage();
 		
+		//自动判断并切换日期和壁纸
+		setInterval(() => {
+			myNewTabWE.initDate();
+		}, 3600000);
 		if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange) {
 			setInterval(() => {
 				if (myNewTabWE.isNewDate()) {
