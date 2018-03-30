@@ -160,15 +160,11 @@ let myNewTabWE = {
 		//自动判断并切换日期和壁纸
 		setInterval(() => {
 			myNewTabWE.initDate();
+			if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange && myNewTabWE.isNewDate()) {
+				myNewTabWE.bingIndex = 0;
+				myNewTabWE.getBingImage();
+			}
 		}, 3600000);
-		if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange) {
-			setInterval(() => {
-				if (myNewTabWE.isNewDate()) {
-					myNewTabWE.bingIndex = 0;
-					myNewTabWE.getBingImage();
-				}
-			}, 3600000);
-		}
 		
 		$id('change').addEventListener('click', () => {
 			if (myNewTabWE.isNewDate()) {
