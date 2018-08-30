@@ -11,7 +11,7 @@ const DEFAULT_CONFIG = {
 	config: {
 		autoChange: true,   //自动切换壁纸
 		autoDownload: false,   //自动下载壁纸
-		bingMaxHistory: 10,   //最大历史天数，可设置[2, 16]
+		bingMaxHistory: 8,   //最大历史天数，可设置[2, 8]
 		downloadDir: 'bingImg',   //相对于浏览器下载文件夹的目录
 		newTabOpen: true,   //是否新标签页打开导航链接
 		title: '我的主页',   //网页标题
