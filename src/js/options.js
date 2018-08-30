@@ -122,6 +122,10 @@ let myNewTabWE = {
 	//初始化选项
 	initConf: () => {
 		$id('newtab-open').checked = myNewTabWE.config.newTabOpen;
+		if (myNewTabWE.config.bingMaxHistory > 8 || myNewTabWE.config.bingMaxHistory < 2) {
+			myNewTabWE.config.bingMaxHistory = 8;
+			myNewTabWE.setStorage(true);
+		}
 		$id('bing-max-history').value = myNewTabWE.config.bingMaxHistory;
 		if (myNewTabWE.config.useBigImage) {
 			$id('1920').checked = true;
