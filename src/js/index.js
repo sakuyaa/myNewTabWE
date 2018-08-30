@@ -133,12 +133,12 @@ let myNewTabWE = {
 	//初始化背景图片
 	initImage: () => {
 		if (myNewTabWE.config.userImage) {   //使用自定义壁纸
-			document.body.style.backgroundImage = 'url("' + myNewTabWE.config.userImageSrc + '")';
+			document.body.style.backgroundImage = `url("${myNewTabWE.config.userImageSrc}")`;
 			$id('download').setAttribute('hidden', 'hidden');
 		} else {
 			let imageSrc = localStorage.getItem('imageSrc');
 			if (imageSrc) {
-				document.body.style.backgroundImage = 'url("' + imageSrc + '")';
+				document.body.style.backgroundImage = `url("${imageSrc}")`;
 				download.setAttribute('download', localStorage.getItem('imageName'));
 				download.setAttribute('href', URL.createObjectURL(myNewTabWE.dataURItoBlob(imageSrc)));
 				if (myNewTabWE.isNewDate()) {
@@ -219,7 +219,7 @@ let myNewTabWE = {
 	getBingImage: async () => {
 		let data, image;
 		try {
-			data = (await myNewTabWE.httpRequest('https://cn.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=zh-CN&idx=' + myNewTabWE.bingIndex % myNewTabWE.config.bingMaxHistory,
+			data = (await myNewTabWE.httpRequest(`https://cn.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=zh-CN&idx=${myNewTabWE.bingIndex % myNewTabWE.config.bingMaxHistory}`,
 				'json', 'https://cn.bing.com/')).images[0];
 			if (!data.url.startsWith('http')) {   //处理图片地址
 				data.url = 'https://www.bing.com' + data.url;
@@ -233,7 +233,7 @@ let myNewTabWE = {
 		}
 		let reader = new FileReader();
 		reader.onload = () => {
-			document.body.style.backgroundImage = 'url("' + reader.result + '")';
+			document.body.style.backgroundImage = `url("${reader.result}")`;
 			
 			//保存图片和获取时间
 			localStorage.setItem('lastCheckTime', Date.now());
