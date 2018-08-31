@@ -100,6 +100,9 @@ let myNewTabWE = {
 				table.appendChild(myNewTabWE.buildTr(list));
 			}
 		}
+	},
+	//初始化监听器
+	initListener: () => {
 		setTimeout(() => {
 			//当主div不占满网页时使其居中偏上
 			let clientHeight = document.documentElement.clientHeight;
@@ -107,7 +110,7 @@ let myNewTabWE = {
 			if (offsetHeight < clientHeight) {
 				$id('main').style.marginTop = (clientHeight - offsetHeight) / 4 + 'px';
 			}
-		}, 100);   //延时以避免主界面offsetHeight高度获取的值偏小
+		}, 567);   //延时以避免主界面offsetHeight高度获取的值有问题
 		addEventListener('resize', () => {   //窗口大小改变时相应调整
 			let clientHeight = document.documentElement.clientHeight;
 			let offsetHeight = $id('main').offsetHeight;
@@ -117,54 +120,18 @@ let myNewTabWE = {
 		});
 		
 		//神秘的代码
-		document.addEventListener('keydown', e => {
+		addEventListener('keydown', e => {
 			if (e.key == 'q' && e.ctrlKey) {
 				for (let yooo of document.getElementsByName('yooo')) {
 					yooo.removeAttribute('hidden');
 				}
 			}
 		});
-		document.addEventListener('keyup', e => {
+		addEventListener('keyup', e => {
 			for (let yooo of document.getElementsByName('yooo')) {
 				yooo.setAttribute('hidden', 'hidden');
 			}
 		});
-	},
-	//初始化背景图片
-	initImage: () => {
-		if (myNewTabWE.config.userImage) {   //使用自定义壁纸
-			document.body.style.backgroundImage = `url("${myNewTabWE.config.userImageSrc}")`;
-			$id('download').setAttribute('hidden', 'hidden');
-		} else {
-			let imageSrc = localStorage.getItem('imageSrc');
-			if (imageSrc) {
-				document.body.style.backgroundImage = `url("${imageSrc}")`;
-				download.setAttribute('download', localStorage.getItem('imageName'));
-				download.setAttribute('href', URL.createObjectURL(myNewTabWE.dataURItoBlob(imageSrc)));
-				if (myNewTabWE.isNewDate()) {
-					myNewTabWE.getBingImage();   //过0点重新获取
-				}
-			} else {
-				myNewTabWE.getBingImage();
-			}
-		}
-	},
-	
-	init: () => {
-		document.title = myNewTabWE.config.title;
-		myNewTabWE.initCss();
-		myNewTabWE.initDate();
-		myNewTabWE.initSite();
-		myNewTabWE.initImage();
-		
-		//自动判断并切换日期和壁纸
-		setInterval(() => {
-			myNewTabWE.initDate();
-			if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange && myNewTabWE.isNewDate()) {
-				myNewTabWE.bingIndex = 0;
-				myNewTabWE.getBingImage();
-			}
-		}, 3600000);
 		
 		$id('change').addEventListener('click', () => {
 			if (myNewTabWE.isNewDate()) {
@@ -211,6 +178,44 @@ let myNewTabWE = {
 				console.log('天气栏css加载失败：' + e);
 			}
 		};
+		
+		//自动判断并切换日期和壁纸
+		setInterval(() => {
+			myNewTabWE.initDate();
+			if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange && myNewTabWE.isNewDate()) {
+				myNewTabWE.bingIndex = 0;
+				myNewTabWE.getBingImage();
+			}
+		}, 3600000);
+	},
+	//初始化背景图片
+	initImage: () => {
+		if (myNewTabWE.config.userImage) {   //使用自定义壁纸
+			document.body.style.backgroundImage = `url("${myNewTabWE.config.userImageSrc}")`;
+			$id('download').setAttribute('hidden', 'hidden');
+		} else {
+			let imageSrc = localStorage.getItem('imageSrc');
+			if (imageSrc) {
+				document.body.style.backgroundImage = `url("${imageSrc}")`;
+				download.setAttribute('download', localStorage.getItem('imageName'));
+				download.setAttribute('href', URL.createObjectURL(myNewTabWE.dataURItoBlob(imageSrc)));
+				if (myNewTabWE.isNewDate()) {
+					myNewTabWE.getBingImage();   //过0点重新获取
+				}
+			} else {
+				myNewTabWE.getBingImage();
+			}
+		}
+	},
+	
+	init: () => {
+		document.title = myNewTabWE.config.title;
+		myNewTabWE.initCss();
+		myNewTabWE.initDate();
+		myNewTabWE.initSite();
+		myNewTabWE.initListener();
+		myNewTabWE.initImage();
+		
 		if (myNewTabWE.config.weatherSrc) {
 			$id('weather').src = myNewTabWE.config.weatherSrc;
 		}
