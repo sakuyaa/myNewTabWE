@@ -78,6 +78,7 @@ let myNewTabWE = {
 	},
 	//初始化日期
 	initDate: () => {
+		localStorage.setItem('date', Date.now());
 		let date = Solar.getSolar(new Date());
 		$id('solar-date').textContent = date.date;
 		$id('solar-festival').textContent = date.festival;
@@ -181,7 +182,12 @@ let myNewTabWE = {
 		
 		//自动判断并切换日期和壁纸
 		setInterval(() => {
-			myNewTabWE.initDate();
+			if (myNewTabWE.isNewDate('date')) {
+				myNewTabWE.initDate();
+				if (myNewTabWE.config.weatherSrc) {
+					$id('weather').src = myNewTabWE.config.weatherSrc;
+				}
+			}
 			if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange && myNewTabWE.isNewDate()) {
 				myNewTabWE.bingIndex = 0;
 				myNewTabWE.getBingImage();
@@ -309,10 +315,10 @@ let myNewTabWE = {
 		return new Blob([arrayBuffer], {type: dataURI.substring(dataURI.indexOf(':') + 1, dataURI.indexOf(';'))});
 	},
 	
-	isNewDate: () => {
+	isNewDate: item => {
 		let today = new Date();
 		today.setHours(0, 0, 0);   //毫秒就不管了
-		if (new Date(parseInt(localStorage.getItem('lastCheckTime'))) < today) {
+		if (new Date(parseInt(localStorage.getItem(item ? item : 'lastCheckTime'))) < today) {
 			return true;
 		}
 		return false;
