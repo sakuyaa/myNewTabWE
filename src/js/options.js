@@ -360,7 +360,7 @@ let myNewTabWE = {
 			img = node.querySelector('.row-icon img'),
 			url = node.querySelector('.row-url');
 		title.textContent = title.title = site.title;
-		img.src = img.title = site.icon;
+		img.src = img.title = site.icon ? site.icon : '../image/default.svg';
 		url.textContent = url.title = site.url;
 		node.querySelector('.row-up').addEventListener('click', () => {
 			let index = list.indexOf(site);
