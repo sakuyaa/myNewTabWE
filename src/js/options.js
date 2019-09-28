@@ -418,4 +418,4 @@ let myNewTabWE = {
 	}
 };
 
-myNewTabWE.getStorage().then(() => {myNewTabWE.init()});
+myNewTabWE.getStorage().then(myNewTabWE.init);
