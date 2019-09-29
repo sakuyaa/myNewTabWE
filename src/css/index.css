@@ -11,22 +11,27 @@
 	z-index: 1;
 }
 
+html, body {
+	height: 100%;
+}
 body {
+	align-items: center;
 	background-attachment: fixed;
 	background-color: #EDEDED;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	display: flex;
+	flex-direction: column;
 	font-family: "microsoft yahei", sans-serif;
 	margin: 0;   /*避免容器大小100%造成的滚动条*/
 }
-
-#main {
-	align-items: center;
-	display: flex;
-	flex-direction: column;
-	position: absolute;
-	width: 100%;
+/*上下空白高度比例1:3*/
+header {
+	flex-grow: 1;
+}
+footer {
+	flex-grow: 3;
 }
 
 /*日历整体*/

@@ -104,26 +104,6 @@ let myNewTabWE = {
 	},
 	//初始化监听器
 	initListener: () => {
-		let times = 0;
-		let intervalID = setInterval(() => {   //延时以避免主界面offsetHeight高度获取的值有问题
-			if (++times > 9) {
-				clearInterval(intervalID);
-			}
-			//当主div不占满网页时使其居中偏上
-			let clientHeight = document.documentElement.clientHeight;
-			let offsetHeight = $id('main').offsetHeight;
-			if (offsetHeight < clientHeight) {
-				$id('main').style.marginTop = (clientHeight - offsetHeight) / 4 + 'px';
-			}
-		}, 300);
-		addEventListener('resize', () => {   //窗口大小改变时相应调整
-			let clientHeight = document.documentElement.clientHeight;
-			let offsetHeight = $id('main').offsetHeight;
-			if (offsetHeight < clientHeight) {
-				$id('main').style.marginTop = (clientHeight - offsetHeight) / 4 + 'px';
-			}
-		});
-		
 		//神秘的代码
 		addEventListener('keydown', e => {
 			if (e.key == 'q' && e.ctrlKey) {
