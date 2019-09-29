@@ -147,43 +147,6 @@ let myNewTabWE = {
 			myNewTabWE.getBingImage();
 		});
 		
-		$id('weather').onload = async () => {
-			try {
-				for (let tab of await browser.tabs.query({url: browser.extension.getURL('html/index.html')})) {
-					for (let frame of await browser.webNavigation.getAllFrames({tabId: tab.id})) {
-						if (frame.frameId) {
-							//天气页面插入css
-							if (myNewTabWE.css.weather) {
-								await browser.tabs.insertCSS(tab.id, {
-									code: myNewTabWE.css.weather,
-									cssOrigin: 'user',
-									frameId: frame.frameId,
-									runAt: 'document_start'
-								});
-							} else {
-								await browser.tabs.insertCSS(tab.id, {
-									cssOrigin: 'user',
-									file: browser.extension.getURL('css/weather.css'),
-									frameId: frame.frameId,
-									runAt: 'document_start'
-								});
-							}
-							//自动适应页面大小
-							let size = (await browser.tabs.executeScript(tab.id, {
-								code: '[document.body.scrollHeight, document.body.scrollWidth]',
-								frameId: frame.frameId,
-								runAt: 'document_end'
-							}))[0];
-							$id('weather').style.height = size[0] + 'px';
-							$id('weather').style.width = size[1] + 'px';
-						}
-					}
-				}
-			} catch(e) {
-				console.log('天气栏css加载失败：' + e);
-			}
-		};
-		
 		//自动判断并切换日期和壁纸
 		setInterval(() => {
 			if (myNewTabWE.isNewDate('date')) {
@@ -217,6 +180,46 @@ let myNewTabWE = {
 			}
 		}
 	},
+	//初始化天气
+	initWeather: () => {
+		return new Promise((resolve, reject) => {
+			$id('weather').onload = async () => {
+				for (let tab of await browser.tabs.query({url: browser.extension.getURL('html/index.html')})) {
+					for (let frame of await browser.webNavigation.getAllFrames({tabId: tab.id})) {
+						if (frame.frameId) {
+							//天气页面插入css
+							if (myNewTabWE.css.weather) {
+								await browser.tabs.insertCSS(tab.id, {
+									code: myNewTabWE.css.weather,
+									cssOrigin: 'user',
+									frameId: frame.frameId,
+									runAt: 'document_start'
+								});
+							} else {
+								await browser.tabs.insertCSS(tab.id, {
+									cssOrigin: 'user',
+									file: browser.extension.getURL('css/weather.css'),
+									frameId: frame.frameId,
+									runAt: 'document_start'
+								});
+							}
+							//自动适应页面大小
+							let size = (await browser.tabs.executeScript(tab.id, {
+								code: '[document.body.scrollHeight, document.body.scrollWidth]',
+								frameId: frame.frameId,
+								runAt: 'document_end'
+							}))[0];
+							$id('weather').style.height = size[0] + 'px';
+							$id('weather').style.width = size[1] + 'px';
+						}
+					}
+				}
+			};
+			$id('weather').src = myNewTabWE.config.weatherSrc;
+			resolve();
+		});
+		
+	},
 	
 	init: () => {
 		document.title = myNewTabWE.config.title;
@@ -227,7 +230,9 @@ let myNewTabWE = {
 		myNewTabWE.initImage();
 		
 		if (myNewTabWE.config.weatherSrc) {
-			$id('weather').src = myNewTabWE.config.weatherSrc;
+			myNewTabWE.initWeather().then(null, e => {
+				console.log('天气栏css加载失败：' + e);
+			});
 		}
 	},
 	
