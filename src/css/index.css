@@ -61,6 +61,7 @@ footer {
 /*导航整体面板*/
 #navs {
 	background-color: rgba(0, 0, 0, .5);
+	backdrop-filter: blur(5px);
 	border: .1em solid gray;
 	border-radius: 1em;
 	margin-bottom: 1em;   /*导航底部保留空间*/
