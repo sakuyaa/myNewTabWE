@@ -8,7 +8,7 @@
 //简化函数
 const $id = id => document.getElementById(id);
 //最近修改过默认css文件的扩展版本，只针对主页
-const LAST_MODIFY_CSS_VERSION = '1.3';
+const LAST_MODIFY_CSS_VERSION = '1.9';
 
 let myNewTabWE = {
 	css: {
