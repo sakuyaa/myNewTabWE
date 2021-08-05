@@ -355,6 +355,7 @@ let myNewTabWE = {
 		return node;
 	},
 	buildTr: (site, list, node) => {
+		node.removeAttribute('class');
 		node.removeAttribute('hidden');
 		let title = node.querySelector('.row-title'),
 			img = node.querySelector('.row-icon img'),
