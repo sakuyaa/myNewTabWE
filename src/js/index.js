@@ -148,8 +148,8 @@ let myNewTabWE = {
 			let imageSrc = localStorage.getItem('imageSrc');
 			if (imageSrc) {
 				document.body.style.backgroundImage = `url("${imageSrc}")`;
-				download.setAttribute('download', localStorage.getItem('imageName'));
-				download.setAttribute('href', URL.createObjectURL(myNewTabWE.dataURItoBlob(imageSrc)));
+				$id('download').setAttribute('download', localStorage.getItem('imageName'));
+				$id('download').setAttribute('href', URL.createObjectURL(myNewTabWE.dataURItoBlob(imageSrc)));
 				if (myNewTabWE.isNewDate()) {
 					myNewTabWE.getBingImage();   //过0点重新获取
 				}
@@ -245,8 +245,8 @@ let myNewTabWE = {
 			localStorage.setItem('imageSrc', reader.result);
 			
 			//设置图片下载链接
-			download.setAttribute('download', imageName);
-			download.setAttribute('href', URL.createObjectURL(image));
+			$id('download').setAttribute('download', imageName);
+			$id('download').setAttribute('href', URL.createObjectURL(image));
 			//自动下载壁纸
 			if (myNewTabWE.config.autoDownload) {
 				if (myNewTabWE.config.downloadDir) {
