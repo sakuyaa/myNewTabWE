@@ -65,8 +65,6 @@ let myNewTabWE = {
 	initCss: () => {
 		if (myNewTabWE.css.index) {
 			let style = document.createElement('style');
-			style.rel = 'stylesheet';
-			style.type = 'text/css';
 			style.appendChild(document.createTextNode(myNewTabWE.css.index));
 			document.head.appendChild(style);
 		} else {
