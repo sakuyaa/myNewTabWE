@@ -18,7 +18,7 @@ const DEFAULT_CONFIG = {
 		useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
 		userImage: false,   //使用自定义壁纸
 		userImageSrc: '',   //自定义壁纸的URL
-		weatherSrc: 'http://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
+		weatherSrc: 'https://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
 	},
 	sites: []
 };
