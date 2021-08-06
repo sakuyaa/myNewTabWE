@@ -42,7 +42,7 @@ let myNewTabWE = {
 			type: 'basic',
 			message: message + '',
 			title: title,
-			iconUrl: browser.extension.getURL('image/home.svg')
+			iconUrl: browser.runtime.getURL('image/home.svg')
 		});
 	},
 	
@@ -162,7 +162,7 @@ let myNewTabWE = {
 	initWeather: () => {
 		return new Promise((resolve, reject) => {
 			$id('weather').onload = async () => {
-				for (let tab of await browser.tabs.query({url: browser.extension.getURL('html/index.html')})) {
+				for (let tab of await browser.tabs.query({url: browser.runtime.getURL('html/index.html')})) {
 					for (let frame of await browser.webNavigation.getAllFrames({tabId: tab.id})) {
 						if (frame.frameId) {
 							//天气页面插入css
@@ -176,7 +176,7 @@ let myNewTabWE = {
 							} else {
 								await browser.tabs.insertCSS(tab.id, {
 									cssOrigin: 'user',
-									file: browser.extension.getURL('css/weather.css'),
+									file: browser.runtime.getURL('css/weather.css'),
 									frameId: frame.frameId,
 									runAt: 'document_start'
 								});
