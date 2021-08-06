@@ -26,7 +26,7 @@ let myNewTabWE = {
 			type: 'basic',
 			message: message + '',
 			title: title,
-			iconUrl: browser.extension.getURL('image/home.svg')
+			iconUrl: browser.runtime.getURL('image/home.svg')
 		});
 	},
 	
