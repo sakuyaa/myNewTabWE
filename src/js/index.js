@@ -125,13 +125,13 @@ let myNewTabWE = {
 			myNewTabWE.getBingImage();
 		});
 		
-		//自动判断并切换日期和壁纸
+		//自动判断并切换天气、日期和壁纸
 		setInterval(() => {
+			if (myNewTabWE.config.weatherSrc) {
+				$id('weather').src = myNewTabWE.config.weatherSrc;
+			}
 			if (myNewTabWE.isNewDate('date')) {
 				myNewTabWE.initDate();
-				if (myNewTabWE.config.weatherSrc) {
-					$id('weather').src = myNewTabWE.config.weatherSrc;
-				}
 			}
 			if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange && myNewTabWE.isNewDate()) {
 				myNewTabWE.bingIndex = 0;
