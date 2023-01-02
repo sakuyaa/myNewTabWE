@@ -149,7 +149,12 @@ let myNewTabWE = {
 			if (imageSrc) {
 				document.body.style.backgroundImage = `url("${imageSrc}")`;
 				$id('download').setAttribute('download', localStorage.getItem('imageName'));
-				$id('download').setAttribute('href', URL.createObjectURL(myNewTabWE.dataURItoBlob(imageSrc)));
+				if (imageSrc.startsWith('http')) {
+					$id('download').setAttribute('href', imageSrc);
+				} else {
+					$id('download').setAttribute('href', URL.createObjectURL(myNewTabWE.dataURItoBlob(imageSrc)));
+				}
+				
 				if (myNewTabWE.isNewDate()) {
 					myNewTabWE.getBingImage();   //过0点重新获取
 				}
@@ -215,16 +220,19 @@ let myNewTabWE = {
 	},
 	
 	getBingImage: async () => {
-		let data, image;
+		let data, url, image;
 		try {
 			data = (await myNewTabWE.httpRequest(`https://cn.bing.com/HPImageArchive.aspx?format=js&n=1&mkt=zh-CN&idx=${myNewTabWE.bingIndex % myNewTabWE.config.bingMaxHistory}`,
 				'json', 'https://cn.bing.com/')).images[0];
-			if (!data.url.startsWith('http')) {   //处理图片地址
-				data.url = 'https://www.bing.com' + data.url;
+			url = 'https://cn.bing.com' + data.urlbase;
+			if (myNewTabWE.config.useBigImage == 2) {
+				url += '_UHD.jpg';
+			} else if (myNewTabWE.config.useBigImage == 1) {
+				url += '_1920x1080.jpg';
+			} else if (myNewTabWE.config.useBigImage == 0) {
+				url += '_1366x768.jpg';
 			}
-			image = await myNewTabWE.httpRequest(myNewTabWE.config.useBigImage ?
-				data.url.replace('1366x768', '1920x1080') : data.url.replace('1920x1080', '1366x768'),
-				'blob', 'https://cn.bing.com/');
+			image = await myNewTabWE.httpRequest(url, 'blob', 'https://cn.bing.com/');
 		} catch (e) {
 			myNewTabWE.notify(e, '获取图片失败');
 			return;
@@ -242,7 +250,12 @@ let myNewTabWE = {
 				.replace(/\?/g, '？')
 				.replace(/("|<|>)/g, '\'') + '.jpg';
 			localStorage.setItem('imageName', imageName);
-			localStorage.setItem('imageSrc', reader.result);
+			if (myNewTabWE.config.useBigImage > 1) {   //UHD大小超出localStorage限制
+				localStorage.setItem('imageSrc', url);
+			} else {
+				localStorage.setItem('imageSrc', reader.result);
+			}
+			
 			
 			//设置图片下载链接
 			$id('download').setAttribute('download', imageName);

@@ -15,7 +15,7 @@ const DEFAULT_CONFIG = {
 		downloadDir: 'bingImg',   //相对于浏览器下载文件夹的目录
 		newTabOpen: true,   //是否新标签页打开导航链接
 		title: '我的主页',   //网页标题
-		useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
+		useBigImage: 2,   //bing图片的尺寸，0为1366x768，1为1920x1080，2为UHD
 		userImage: false,   //使用自定义壁纸
 		userImageSrc: '',   //自定义壁纸的URL
 		weatherSrc: 'https://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
@@ -127,9 +127,11 @@ let myNewTabWE = {
 			myNewTabWE.setStorage(true);
 		}
 		$id('bing-max-history').value = myNewTabWE.config.bingMaxHistory;
-		if (myNewTabWE.config.useBigImage) {
+		if (myNewTabWE.config.useBigImage == 2) {
+			$id('UHD').checked = true;
+		} else if (myNewTabWE.config.useBigImage == 1) {
 			$id('1920').checked = true;
-		} else {
+		} else if (myNewTabWE.config.useBigImage == 0) {
 			$id('1366').checked = true;
 		}
 		$id('auto-change').checked = myNewTabWE.config.autoChange;
@@ -247,12 +249,16 @@ let myNewTabWE = {
 			myNewTabWE.config.bingMaxHistory = e.target.value;
 			myNewTabWE.setStorage(true);
 		});
+		$id('UHD').addEventListener('click', () => {
+			myNewTabWE.config.useBigImage = 2;
+			myNewTabWE.setStorage(true);
+		});
 		$id('1920').addEventListener('click', () => {
-			myNewTabWE.config.useBigImage = true;
+			myNewTabWE.config.useBigImage = 1;
 			myNewTabWE.setStorage(true);
 		});
 		$id('1366').addEventListener('click', () => {
-			myNewTabWE.config.useBigImage = false;
+			myNewTabWE.config.useBigImage = 0;
 			myNewTabWE.setStorage(true);
 		});
 		$id('auto-change').addEventListener('click', e => {
