@@ -22,7 +22,7 @@ button:active {   /*点击效果*/
 	background-color: #BBBBBB;
 }
 textarea {
-	-moz-tab-size: 4;   /*bug 737785*/
+	tab-size: 4;
 	background-color: #F9F9F9;
 	overflow-y: hidden;
 	padding: 0;   /*使其宽度100%能居中*/
