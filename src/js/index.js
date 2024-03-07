@@ -154,8 +154,7 @@ let myNewTabWE = {
 				} else {
 					$id('download').setAttribute('href', URL.createObjectURL(myNewTabWE.dataURItoBlob(imageSrc)));
 				}
-				
-				if (myNewTabWE.isNewDate()) {
+				if (myNewTabWE.config.autoChange && myNewTabWE.isNewDate()) {
 					myNewTabWE.getBingImage();   //过0点重新获取
 				}
 			} else {
