@@ -15,7 +15,7 @@ const DEFAULT_CONFIG = {
 		downloadDir: 'bingImg',   //相对于浏览器下载文件夹的目录
 		newTabOpen: true,   //是否新标签页打开导航链接
 		title: '我的主页',   //网页标题
-		useBigImage: true,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080
+		useBigImage: 2,   //bing图片的尺寸，0为默认的1366x768，1为1920x1080，2为UHD
 		userImage: false,   //使用自定义壁纸
 		userImageSrc: '',   //自定义壁纸的URL
 		weatherSrc: 'https://i.tianqi.com/index.php?c=code&id=8&num=3'   //天气代码的URL
