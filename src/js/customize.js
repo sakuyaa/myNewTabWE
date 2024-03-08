@@ -80,7 +80,7 @@ let myNewTabWE = {
 			});
 		});
 		$id('index-save').addEventListener('click', () => {
-			myNewTabWE.css.version = LAST_MODIFY_CSS_VERSION;
+			myNewTabWE.css.version = $id('index-css').value == '' ? 0 : LAST_MODIFY_CSS_VERSION;
 			myNewTabWE.css.index = $id('index-css').value;
 			browser.storage.local.set({css: myNewTabWE.css}).then(null, e => {
 				myNewTabWE.notify(e, '设置定制css内容失败');
