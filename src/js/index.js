@@ -126,18 +126,25 @@ let myNewTabWE = {
 		});
 		
 		//自动判断并切换天气、日期和壁纸
+		let lastCheckTime = new Date();
 		setInterval(() => {
-			if (myNewTabWE.config.weatherSrc) {
-				$id('weather').src = myNewTabWE.config.weatherSrc;
-			}
-			if (myNewTabWE.isNewDate('date')) {
+			let now = new Date();
+			if (now.getDate() != lastCheckTime.getDate()) {   //第二天
 				myNewTabWE.initDate();
+				if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange) {
+					myNewTabWE.bingIndex = 0;
+					setTimeout(myNewTabWE.getBingImage, 1234);   //延迟获取避免刚唤醒后没有网络
+				}
 			}
-			if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange && myNewTabWE.isNewDate()) {
-				myNewTabWE.bingIndex = 0;
-				myNewTabWE.getBingImage();
+			if (now.getDate() != lastCheckTime.getDate() || (now.getTime() - lastCheckTime.getTime()) >= 3600000) {   //第二天或间隔一小时
+				lastCheckTime = now;
+				if (myNewTabWE.config.weatherSrc) {
+					setTimeout(() => {
+						$id('weather').src = myNewTabWE.config.weatherSrc;
+					}, 1234);   //延迟获取避免刚唤醒后没有网络
+				}
 			}
-		}, 3600000);
+		}, 60000);
 	},
 	//初始化背景图片
 	initImage: () => {
