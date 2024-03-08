@@ -23,7 +23,7 @@ body {
 	background-size: cover;
 	display: flex;
 	flex-direction: column;
-	font-family: "microsoft yahei", sans-serif;
+	font-family: "Microsoft YaHei", sans-serif;
 	margin: 0;   /*避免容器大小100%造成的滚动条*/
 }
 /*上下空白高度比例1:3*/
@@ -37,7 +37,7 @@ footer {
 /*日历整体*/
 #date {
 	color: #1E90FF;
-	font: bold 3em "monotype corsiva", sans-serif;
+	font: bold 3em Arial, "Microsoft YaHei", sans-serif;
 	margin: .25em 0;
 	text-align: center;
 	text-shadow: .1em .1em .1em black;
