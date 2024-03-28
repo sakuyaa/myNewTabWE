@@ -126,22 +126,22 @@ let myNewTabWE = {
 		
 		//自动判断并切换天气、日期和壁纸
 		let lastCheckTime = new Date();
-		setInterval(() => {
+		setInterval(async () => {
 			let now = new Date();
 			if (now.getDate() != lastCheckTime.getDate()) {   //第二天
 				myNewTabWE.initDate();
-				if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange) {
-					myNewTabWE.bingIndex = 0;
-					setTimeout(myNewTabWE.getBingImage, 1234);   //延迟获取避免刚唤醒后没有网络
-				}
 			}
 			if (now.getDate() != lastCheckTime.getDate() || (now.getTime() - lastCheckTime.getTime()) >= 3600000) {   //第二天或间隔一小时
 				lastCheckTime = now;
 				if (myNewTabWE.config.weatherSrc) {
-					setTimeout(() => {
-						$id('weather').src = myNewTabWE.config.weatherSrc;
-					}, 1234);   //延迟获取避免刚唤醒后没有网络
+					await myNewTabWE.delay(9876);   //延迟获取避免刚唤醒后没有网络
+					$id('weather').src = myNewTabWE.config.weatherSrc;
 				}
+			}
+			if (!myNewTabWE.config.userImage && myNewTabWE.config.autoChange && myNewTabWE.isNewDate()) {
+				await myNewTabWE.delay(9876);   //延迟获取避免刚唤醒后没有网络
+				myNewTabWE.bingIndex = 0;
+				myNewTabWE.getBingImage();
 			}
 		}, 60000);
 	},
@@ -327,6 +327,15 @@ let myNewTabWE = {
 			return true;
 		}
 		return false;
+	},
+	
+	delay: async time => {
+		let now = new Date();
+		await new Promise(resolve => setTimeout(resolve, time));
+		if ((new Date()).getTime() - now.getTime() - time > 999) {
+			//延迟的时间比预定的还久的话，怀疑是中间电脑睡眠了，重新延迟
+			return await myNewTabWE.delay(time);
+		}
 	},
 	
 	httpRequest: (url, type, referrer) => {
