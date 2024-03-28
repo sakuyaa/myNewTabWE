@@ -103,7 +103,7 @@ let myNewTabWE = {
 	initListener: () => {
 		//神秘的代码
 		addEventListener('keydown', e => {
-			if (e.key == 'q' && e.ctrlKey) {
+			if ((e.key.toLowerCase() == 'q') && e.ctrlKey) {
 				for (let yooo of document.getElementsByName('yooo')) {
 					yooo.removeAttribute('hidden');
 				}
