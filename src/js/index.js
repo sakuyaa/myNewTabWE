@@ -76,7 +76,6 @@ let myNewTabWE = {
 	},
 	//初始化日期
 	initDate: () => {
-		localStorage.setItem('date', Date.now());
 		let date = Solar.getSolar(new Date());
 		$id('solar-date').textContent = date.date;
 		$id('solar-festival').textContent = date.festival;
