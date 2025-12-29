@@ -1,6 +1,6 @@
 /**************************************************
-* 	myNewTabWE by sakuyaa.
-*	
+*	myNewTabWE by sakuyaa.
+*
 *	https://github.com/sakuyaa/
 **************************************************/
 'use strict';
@@ -255,12 +255,13 @@ let myNewTabWE = {
 				.replace(/\?/g, '？')
 				.replace(/("|<|>)/g, '\'') + '.jpg';
 			localStorage.setItem('imageName', imageName);
-			if (myNewTabWE.config.useBigImage > 1) {   //UHD大小超出localStorage限制
-				localStorage.setItem('imageSrc', url);
-			} else {
+			try {
 				localStorage.setItem('imageSrc', reader.result);
+			} catch (e) {
+				//e.name == QuotaExceededError
+				//UHD壁纸可能超出localStorage限制
+				localStorage.setItem('imageSrc', url);
 			}
-			
 			
 			//设置图片下载链接
 			$id('download').setAttribute('download', imageName);
